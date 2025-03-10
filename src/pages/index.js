@@ -1,9 +1,8 @@
-import { lazy } from "react";
+export { default as Home } from "./home/Home";  // с большой буквы
 
-export const Home = lazy(() => import("./home/home"));
-export const AboutUs = lazy(() => import("./about-us/about-us"));
-export const Catalog = lazy(() => import("./catalog/catalog"));
-export const Delivery = lazy(() => import("./delivery/delivery"));
-export const Contacts = lazy(() => import("./contacts/contacts"));
-export const Reviews = lazy(() => import("./reviews/reviews"));
-export const NotFound = lazy(() => import("./not-found/not-found"));
+export { default as AboutUs } from "./aboutUs/AboutUs";  // если у тебя файл с маленькой буквы
+export { default as Catalog } from "./catalog/Catalog";
+export { default as Delivery } from "./delivery/Delivery";
+export { default as Contacts } from "./contacts/Contacts";
+export { default as Reviews } from "./reviews/Reviews";
+export { default as NotFound } from "./notFound/NotFound";

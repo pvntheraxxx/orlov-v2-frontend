@@ -1,3 +1,4 @@
-export { default as Loader } from "./loader";
-export { default as ScrollToTopButton } from "./scroll-to-top-button";
-export { default as SupportButton } from "./support-button";
+export { default as Loader } from "./Loader";
+export { default as ScrollToTopButton } from "./ScrollToTopButton";
+export { default as SupportButton } from "./SupportButton";
+export { default as RegistrationForm } from "./RegistrationForm";

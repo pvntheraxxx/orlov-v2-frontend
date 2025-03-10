@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useResponsive } from "../../hooks/useResponsive";
 import Logo from "../../assets/hero-section/Logo.svg?react";
-import backgroundImage from "../../assets/hero-section/background1.webp";
+import backgroundImage from "../../assets/hero-section/background4.webp";
 
 const HeroSection = () => {
   const { isSm, isMd, isLg } = useResponsive();
@@ -44,7 +44,7 @@ const HeroSection = () => {
       zIndex={10}
       px={2}
       sx={{
-        // backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${backgroundImage})`,
 
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -61,7 +61,8 @@ const HeroSection = () => {
           width: "100%",
           height: "100%",
           background: "#181818",
-          // "linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.35))",
+          // background:
+          //   "linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.35))",
           zIndex: 2,
         },
       }}

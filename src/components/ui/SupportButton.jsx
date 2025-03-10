@@ -68,7 +68,7 @@ const SupportButton = () => {
                 Отслеживание заказа
               </Button>
               <Button fullWidth variant="outlined" sx={{ mb: 1 }}>
-                Бот
+                Чат с поддержкой
               </Button>
               <Button fullWidth variant="outlined">
                 Оставить заявку

@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import NavBar from "../components/nav-bar";
-import Footer from "../components/footer";
-import MobileBottomNav from "../components/mobile-menu";
+import { NavBar } from "../components/navBar";
+import { Footer } from "../components/footer";
+import { MobileBottomNav } from "../components/mobileMenu";
 import { useResponsive } from "../hooks/useResponsive";
 
 import { SupportButton, ScrollToTopButton } from "../components/ui";

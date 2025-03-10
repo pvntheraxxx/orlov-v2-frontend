@@ -84,10 +84,10 @@ const theme = createTheme({
     // MuiCssBaseline: {
     //   styleOverrides: `
     //     body {
-    //       cursor: url('/cursor/cursor.png') 10 10, auto !important;
+    //       cursor: url('/assets/cursor/cursor.png') 10 10, auto !important;
     //     }
     //     a, button {
-    //       cursor: url('/cursor/cursor-pointer.png') 10 10, pointer !important;
+    //       cursor: url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important;
     //     }
     //   `,
     // },

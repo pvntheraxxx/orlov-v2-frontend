@@ -1,1 +1,1 @@
-export { default as ReviewsStream } from "./reviews-stream";
+export { default as ReviewsStream } from "./ReviewsStream";

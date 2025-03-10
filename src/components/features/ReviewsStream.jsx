@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import reviews from "../../data/reviewsData";
 
 const COLUMN_COUNT = 4;
-const SCROLL_DURATION = 500;
+const SCROLL_DURATION = 1000;
 
 const ReviewsStream = () => {
   const [columns, setColumns] = useState([]);
