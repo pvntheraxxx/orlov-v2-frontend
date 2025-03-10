@@ -1,0 +1,130 @@
+import React from "react";
+import { Container, Grid, Typography, Button, Box } from "@mui/material";
+import { motion } from "framer-motion";
+
+// Контейнер для stagger-анимации
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      // задержка между появлениями дочерних элементов
+      staggerChildren: 0.3,
+    },
+  },
+};
+
+// Анимация для каждого элемента
+const itemVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+};
+
+const AboutUsHero = () => {
+  return (
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        background: "#f5f5f5", // При желании можно задать другой фон
+      }}
+    >
+      <Container maxWidth="lg">
+        <Grid container spacing={4} alignItems="center">
+          {/* Левая колонка: Заголовок, текст, кнопка */}
+          <Grid item xs={12} md={6}>
+            <motion.div variants={itemVariants}>
+              <Typography variant="overline" color="primary" sx={{ mb: 1 }}>
+                ABOUT US
+              </Typography>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Typography variant="h3" sx={{ fontWeight: "bold", mb: 2 }}>
+                Helping businesses deliver
+                <br /> exceptional buyer experiences
+              </Typography>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Typography variant="body1" sx={{ mb: 3 }}>
+                Vidyard is the leading video messaging and asynchronous
+                communications platform for go-to-market teams. Millions of
+                sales professionals and more than 250,000 organizations use
+                Vidyard's AI-powered video messaging, video hosting, and digital
+                sales rooms to connect with more prospects and generate more
+                revenue.
+              </Typography>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Button variant="contained" color="primary" size="large">
+                Sign Up for Free
+              </Button>
+            </motion.div>
+          </Grid>
+
+          {/* Правая колонка: Картинка с декоративными элементами */}
+          <Grid item xs={12} md={6}>
+            <motion.div variants={itemVariants}>
+              <Box sx={{ position: "relative", width: "100%", height: "auto" }}>
+                {/* Декоративная фигура (пример: полукруг/овал/фигура) */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "20%",
+                    left: "-30px",
+                    width: "200px",
+                    height: "200px",
+                    borderRadius: "50% 0 50% 50%",
+                    backgroundColor: "primary.main",
+                    opacity: 0.15,
+                    zIndex: -1,
+                  }}
+                />
+                {/* Дополнительный декоративный элемент (точечный паттерн) */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: "10%",
+                    right: "-40px",
+                    width: "150px",
+                    height: "150px",
+                    borderRadius: "50%",
+                    background:
+                      "radial-gradient(circle, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0) 60%)",
+                    opacity: 0.2,
+                    zIndex: -1,
+                  }}
+                />
+                {/* Основное изображение */}
+                <Box
+                  component="img"
+                  src="https://via.placeholder.com/600x400.png?text=Your+Image+Here"
+                  alt="Person at desk"
+                  sx={{
+                    width: "100%",
+                    borderRadius: 2,
+                    boxShadow: 3,
+                  }}
+                />
+              </Box>
+            </motion.div>
+          </Grid>
+        </Grid>
+      </Container>
+    </motion.div>
+  );
+};
+
+export default AboutUsHero;

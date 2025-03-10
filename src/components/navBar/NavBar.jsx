@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,11 +8,15 @@ import Typography from "@mui/material/Typography";
 import ReceiptLong from "@mui/icons-material/ReceiptLong";
 import { FaSearchDollar, FaUserTie, FaShoppingCart } from "react-icons/fa";
 import { useResponsive } from "../../hooks/useResponsive";
+import RegistrationForm from "../ui/RegistrationForm";
 
 const NavBar = () => {
   const { isXs, isSm, isLgSm, isMd, isLg } = useResponsive();
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Состояние для управления отображением формы регистрации
+  const [openRegister, setOpenRegister] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,6 +34,14 @@ const NavBar = () => {
     if (location.pathname === path) {
       window.scrollTo(0, 0);
     }
+  };
+
+  const handleUserClick = () => {
+    setOpenRegister(true); // Открыть форму регистрации
+  };
+
+  const handleCloseRegister = () => {
+    setOpenRegister(false); // Закрыть форму регистрации
   };
 
   const isTablet = isMd || isLg;
@@ -184,13 +196,19 @@ const NavBar = () => {
               <IconButton color="inherit" sx={{ padding: "6px" }}>
                 <FaShoppingCart size={20} />
               </IconButton>
-              <IconButton color="inherit" sx={{ padding: "6px" }}>
+              <IconButton
+                color="inherit"
+                sx={{ padding: "6px" }}
+                onClick={handleUserClick}
+              >
                 <FaUserTie size={20} />
               </IconButton>
             </Box>
           </Toolbar>
         </AppBar>
       </Box>
+      {/* Модальное окно с формой регистрации */}
+      <RegistrationForm open={openRegister} onClose={handleCloseRegister} />
     </>
   );
 };

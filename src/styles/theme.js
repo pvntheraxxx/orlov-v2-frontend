@@ -81,16 +81,34 @@ const theme = createTheme({
         },
       },
     },
-    // MuiCssBaseline: {
-    //   styleOverrides: `
-    //     body {
-    //       cursor: url('/assets/cursor/cursor.png') 10 10, auto !important;
-    //     }
-    //     a, button {
-    //       cursor: url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important;
-    //     }
-    //   `,
-    // },
+    MuiCssBaseline: {
+      styleOverrides: {
+        "::-webkit-scrollbar": {
+          width: "12px", // Ширина скроллбара для Chrome, Safari, Edge
+        },
+        "::-webkit-scrollbar-track": {
+          background: "#2C2C2C", // Цвет дорожки
+        },
+        "::-webkit-scrollbar-thumb": {
+          backgroundColor: "#EFE393", // Лимоннозолотой цвет ползунка
+          borderRadius: "6px",
+        },
+        "::-webkit-scrollbar-thumb:hover": {
+          backgroundColor: "#D8D080", // Немного темнее при наведении
+        },
+        "*": {
+          scrollbarWidth: "thin", // Для Firefox
+          scrollbarColor: "#EFE393 #2C2C2C", // (ползунок, дорожка) для Firefox
+        },
+        // Если вам нужны специальные стили для курсора, можете добавить их здесь:
+        // body: {
+        //   cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
+        // },
+        // "a, button": {
+        //   cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
+        // },
+      },
+    },
   },
 });
 

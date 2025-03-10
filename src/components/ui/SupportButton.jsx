@@ -34,7 +34,12 @@ const SupportButton = () => {
       </Fab>
 
       {/* Модальное окно */}
-      <Modal open={open} onClose={() => setOpen(false)} disableAutoFocus>
+      <Modal
+        sx={{ zIndex: 10000 }}
+        open={open}
+        onClose={() => setOpen(false)}
+        disableAutoFocus
+      >
         <Box
           sx={{
             display: "flex",

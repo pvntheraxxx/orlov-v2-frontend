@@ -1,5 +1,4 @@
 export { default as Home } from "./home/Home";  // с большой буквы
-
 export { default as AboutUs } from "./aboutUs/AboutUs";  // если у тебя файл с маленькой буквы
 export { default as Catalog } from "./catalog/Catalog";
 export { default as Delivery } from "./delivery/Delivery";

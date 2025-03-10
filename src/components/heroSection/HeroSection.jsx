@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useResponsive } from "../../hooks/useResponsive";
-import Logo from "../../assets/hero-section/Logo.svg?react";
-import backgroundImage from "../../assets/hero-section/background4.webp";
+import Logo from "../../assets/heroSection/Logo.svg?react";
+import backgroundImage from "../../assets/heroSection/background4.webp";
 
 const HeroSection = () => {
   const { isSm, isMd, isLg } = useResponsive();
