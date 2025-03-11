@@ -9,25 +9,22 @@ import ReceiptLong from "@mui/icons-material/ReceiptLong";
 import { FaSearchDollar, FaUserTie, FaShoppingCart } from "react-icons/fa";
 import { useResponsive } from "../../hooks/useResponsive";
 import RegistrationForm from "../ui/RegistrationForm";
+import SearchMenu from "../ui/SearchMenu";
 
 const NavBar = () => {
   const { isXs, isSm, isLgSm, isMd, isLg } = useResponsive();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Состояние для управления отображением формы регистрации
   const [openRegister, setOpenRegister] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  const handleOrlovClick = () => {
-    if (location.pathname === "/") {
-      window.scrollTo(0, 0);
-    } else {
-      navigate("/");
-    }
+  const handleSearchToggle = () => {
+    setSearchOpen((prev) => !prev);
   };
 
   const handleMenuClick = (path) => {
@@ -124,7 +121,6 @@ const NavBar = () => {
                 fontSize: "1.4rem",
                 color: "primary.main",
               }}
-              onClick={handleOrlovClick}
             >
               ORLOV
             </Box>
@@ -191,7 +187,7 @@ const NavBar = () => {
             {/* Иконки справа */}
             <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
               <IconButton color="inherit" sx={{ padding: "6px" }}>
-                <FaSearchDollar size={20} />
+                <FaSearchDollar onClick={handleSearchToggle} size={20} />
               </IconButton>
               <IconButton color="inherit" sx={{ padding: "6px" }}>
                 <FaShoppingCart size={20} />
@@ -207,6 +203,10 @@ const NavBar = () => {
           </Toolbar>
         </AppBar>
       </Box>
+
+      {/* Поисковое меню для десктопа */}
+      <SearchMenu open={searchOpen} onClose={() => setSearchOpen(false)} />
+
       {/* Модальное окно с формой регистрации */}
       <RegistrationForm open={openRegister} onClose={handleCloseRegister} />
     </>

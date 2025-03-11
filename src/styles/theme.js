@@ -72,7 +72,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-          borderRadius: "10px",
+          // borderRadius: "10px",
           color: "#181818", // Контрастный тёмный текст на кнопках
           backgroundColor: "#EFE393",
           "&:hover": {
@@ -100,7 +100,7 @@ const theme = createTheme({
           scrollbarWidth: "thin", // Для Firefox
           scrollbarColor: "#EFE393 #2C2C2C", // (ползунок, дорожка) для Firefox
         },
-        // Если вам нужны специальные стили для курсора, можете добавить их здесь:
+     
         // body: {
         //   cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
         // },
