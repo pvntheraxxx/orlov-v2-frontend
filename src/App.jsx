@@ -4,13 +4,14 @@ import { ResponsiveProvider } from "./hooks/useResponsive";
 import { MainLayout } from "./layouts";
 import { Loader } from "./components/ui";
 import {
-  Home,
-  AboutUs,
-  Catalog,
-  Delivery,
-  Contacts,
-  Reviews,
-  NotFound,
+  HomePage,
+  AboutUsPage,
+  CatalogPage,
+  CartPage,
+  DeliveryPage,
+  ContactsPage,
+  ReviewsPage,
+  NotFoundPage,
 } from "./pages";
 
 const App = () => {
@@ -20,13 +21,14 @@ const App = () => {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<MainLayout />}>
-              <Route index element={<Home />} />
-              <Route path="about-us" element={<AboutUs />} />
-              <Route path="catalog" element={<Catalog />} />
-              <Route path="delivery" element={<Delivery />} />
-              <Route path="contacts" element={<Contacts />} />
-              <Route path="reviews" element={<Reviews />} />
-              <Route path="*" element={<NotFound />} />
+              <Route index element={<HomePage />} />
+              <Route path="about-us" element={<AboutUsPage />} />
+              <Route path="catalog" element={<CatalogPage />} />
+              <Route path="delivery" element={<DeliveryPage />} />
+              <Route path="contacts" element={<ContactsPage />} />
+              <Route path="reviews" element={<ReviewsPage />} />
+              <Route path="cart" element={<CartPage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
         </Suspense>

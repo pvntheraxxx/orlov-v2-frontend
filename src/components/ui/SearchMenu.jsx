@@ -5,18 +5,38 @@ import {
   TextField,
   Typography,
   InputAdornment,
+  Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import { useResponsive } from "../../hooks/useResponsive";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 
 const SearchMenu = ({ open, onClose }) => {
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState("");
-  const placeholderText = "Введите запрос";
+  const placeholderText = "Введите запрос...";
   const { isXs, isSm } = useResponsive();
   const isMobile = isXs || isSm;
+  const buttonContainerRef = useRef(null);
+  const searchFieldRef = useRef(null);
+  const [inputWidth, setInputWidth] = useState("100%");
+
+  const handleClose = useCallback(() => {
+    window.scrollTo(0, 0);
+    onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) {
@@ -30,8 +50,28 @@ const SearchMenu = ({ open, onClose }) => {
       if (index > placeholderText.length) {
         index = 0;
       }
-    }, 200);
+    }, 200); // Вернул исходную скорость плейсхолдера
     return () => clearInterval(interval);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleUserAction = () => {
+      handleClose();
+    };
+    window.addEventListener("wheel", handleUserAction);
+    window.addEventListener("touchmove", handleUserAction);
+    return () => {
+      window.removeEventListener("wheel", handleUserAction);
+      window.removeEventListener("touchmove", handleUserAction);
+    };
+  }, [open, handleClose]);
+
+  useEffect(() => {
+    if (buttonContainerRef.current && searchFieldRef.current) {
+      const containerRect = buttonContainerRef.current.getBoundingClientRect();
+      setInputWidth(`${containerRect.width}px`);
+    }
   }, [open]);
 
   return (
@@ -49,11 +89,9 @@ const SearchMenu = ({ open, onClose }) => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          gap: 2,
-          padding: 3,
           color: "#EFE393",
           opacity: open ? 1 : 0,
-          transition: "opacity 0.4s ease-in-out",
+          transition: "opacity 0.2s ease-in-out", // Скорость анимации уменьшена
           overflow: "hidden",
           overscrollBehavior: "none",
         }}
@@ -61,73 +99,115 @@ const SearchMenu = ({ open, onClose }) => {
         <Box
           sx={{
             position: "absolute",
-            top: 10,
-            left: 20,
-            fontWeight: "bold",
-            fontSize: "1.4rem",
-            color: "#EFE393",
-            cursor: "pointer",
+            top: isMobile ? 5 : 10,
+            left: isMobile ? 10 : 20,
+            right: isMobile ? 10 : 20,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          ORLOV
-        </Box>
-        <IconButton
-          sx={{ position: "absolute", top: 10, right: 20, color: "#EFE393" }}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          <TextField
-            fullWidth
-            placeholder={animatedPlaceholder}
-            variant="outlined"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: "#EFE393" }} />
-                </InputAdornment>
-              ),
-            }}
+          <Typography
             sx={{
-              maxWidth: "500px",
-              backgroundColor: "transparent",
-              opacity: open ? 1 : 0,
-              transition: "opacity 0.6s ease-in-out 0.4s",
+              fontWeight: "bold",
+              fontSize: isMobile ? "1.2rem" : "1.4rem",
+              color: "#EFE393",
+              cursor: "pointer",
             }}
-          />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              gap: 3,
-              opacity: open ? 1 : 0,
-              transition: "opacity 0.7s ease-in-out 0.6s",
-            }}
+            onClick={handleClose}
           >
-            <IconButton sx={{ color: "#EFE393" }}>
-              <Typography variant="body1">iPhone 15</Typography>
-            </IconButton>
-            <IconButton sx={{ color: "#EFE393" }}>
-              <Typography variant="body1">Pro</Typography>
-            </IconButton>
-            <IconButton sx={{ color: "#EFE393" }}>
-              <Typography variant="body1">Pro Max</Typography>
-            </IconButton>
-            <IconButton sx={{ color: "#EFE393" }}>
-              <Typography variant="body1">Plus</Typography>
-            </IconButton>
-          </Box>
-        </motion.div>
+            ORLOV
+          </Typography>
+          <IconButton sx={{ color: "#EFE393" }} onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -60%)",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+          >
+            <Typography
+              sx={{
+                textAlign: "center",
+                maxWidth: inputWidth,
+                color: "#EFE393",
+                mb: 1,
+              }}
+            >
+              Найдите идеальный аксессуар по самым выгодным ценам прямо сейчас!
+            </Typography>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, delay: 0.1, ease: "easeOut" }}
+          >
+            <TextField
+              fullWidth
+              inputRef={searchFieldRef}
+              placeholder={animatedPlaceholder}
+              variant="outlined"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: "#EFE393" }} />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                width: inputWidth,
+                backgroundColor: "transparent",
+                opacity: open ? 1 : 0,
+                transition: "opacity 0.2s ease-in-out 0.1s",
+              }}
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, delay: 0.2, ease: "easeOut" }}
+          >
+            <Box
+              ref={buttonContainerRef}
+              sx={{ mt: 2, display: "flex", gap: 1 }}
+            >
+              {["iPhone 15", "Pro", "Pro Max", "Plus"].map((label) => (
+                <Button
+                  key={label}
+                  variant="outlined"
+                  sx={{
+                    color: "primary.main",
+                    borderColor: "primary.main",
+                    backgroundColor: "transparent",
+                    "&:hover": {
+                      backgroundColor: "primary.main",
+                      borderColor: "primary.main",
+                      color: "#181818",
+                    },
+                  }}
+                >
+                  {label}
+                </Button>
+              ))}
+            </Box>
+          </motion.div>
+        </Box>
       </Box>
     </Fade>
   );

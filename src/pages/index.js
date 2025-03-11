@@ -1,7 +1,8 @@
-export { default as Home } from "./home/Home";  // с большой буквы
-export { default as AboutUs } from "./aboutUs/AboutUs";  // если у тебя файл с маленькой буквы
-export { default as Catalog } from "./catalog/Catalog";
-export { default as Delivery } from "./delivery/Delivery";
-export { default as Contacts } from "./contacts/Contacts";
-export { default as Reviews } from "./reviews/Reviews";
-export { default as NotFound } from "./notFound/NotFound";
+export { default as HomePage } from "./home/HomePage";  
+export { default as AboutUsPage } from "./aboutUsPage/AboutUsPage";  
+export { default as CatalogPage } from "./catalogPage/CatalogPage";
+export { default as CartPage } from "./cartPage/CartPage";
+export { default as DeliveryPage } from "./deliveryPage/DeliveryPage";
+export { default as ContactsPage } from "./contactsPage/ContactsPage";
+export { default as ReviewsPage } from "./reviews/ReviewsPage";
+export { default as NotFoundPage } from "./notFound/NotFoundPage";
