@@ -8,12 +8,16 @@ import backgroundImage from "../../assets/heroSection/background4.webp";
 const HeroSection = () => {
   const { isSm, isMd, isLg } = useResponsive();
   const [viewportHeight, setViewportHeight] = useState("100vh");
+  const [extraMarginTop, setExtraMarginTop] = useState(0);
 
   useEffect(() => {
     const updateHeight = () => {
       const bottomNavHeight = isSm ? 60 : 0;
       const availableHeight = window.innerHeight - bottomNavHeight;
       setViewportHeight(`${availableHeight}px`);
+
+      // Если высота экрана меньше 800px (примерно как у Redmi Note 8T), добавляем отступ
+      setExtraMarginTop(window.innerHeight < 800 ? 15 : 0);
     };
 
     updateHeight();
@@ -45,14 +49,13 @@ const HeroSection = () => {
       px={2}
       sx={{
         backgroundImage: `url(${backgroundImage})`,
-
         backgroundSize: "cover",
         backgroundPosition: "center",
         overflow: "hidden",
         flexShrink: 0,
         pt: isSm ? "60px" : 5,
         pb: isSm ? "0px" : "5px",
-        marginTop: { xs: "-32px", sm: "0px" },
+        marginTop: { xs: `-${32 - extraMarginTop}px`, sm: "0px" }, // Динамический отступ
         "&::before": {
           content: '""',
           position: "absolute",
@@ -61,8 +64,6 @@ const HeroSection = () => {
           width: "100%",
           height: "100%",
           background: "#181818",
-          // background:
-          //   "linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.35))",
           zIndex: 2,
         },
       }}

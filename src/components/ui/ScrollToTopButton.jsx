@@ -15,7 +15,9 @@ const ScrollToTopButton = () => {
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    });
   };
 
   return (
@@ -24,8 +26,8 @@ const ScrollToTopButton = () => {
         color="primary"
         sx={{
           position: "fixed",
-          bottom: { xs: 80, md: 20 }, // Совпадает с SupportButton
-          left: 20, // Симметрично SupportButton
+          bottom: { xs: 80, md: 20 },
+          left: 20,
           zIndex: 1000,
           width: { xs: 40, md: 56 },
           height: { xs: 40, md: 56 },

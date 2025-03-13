@@ -70,7 +70,6 @@ const NavBar = () => {
             background:
               "linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0))",
             textShadow: "1px 1px 2px rgba(0, 0, 0, 0.8)",
-            // Можно усилить/убрать тень в верхней полосе по желанию:
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
@@ -87,10 +86,6 @@ const NavBar = () => {
             width: "calc(100% - 20px)",
             backgroundColor: "#1b1b1b",
             borderRadius: "25px",
-            /*
-              Здесь комбинируем тень сверху (отрицательный offset) и снизу (положительный offset).
-              Первый блок отвечает за верхнюю тень, второй и третий — за нижнюю «глубину».
-            */
             boxShadow: `
               0 -4px 8px rgba(0, 0, 0, 0.6),
               0 6px 12px rgba(0, 0, 0, 0.8),
@@ -193,7 +188,11 @@ const NavBar = () => {
               >
                 <FaSearchDollar size={20} />
               </IconButton>
-              <IconButton color="inherit" sx={{ padding: "6px" }}>
+              <IconButton
+                color="inherit"
+                sx={{ padding: "6px" }}
+                onClick={() => navigate("/cart")}
+              >
                 <FaShoppingCart size={20} />
               </IconButton>
               <IconButton

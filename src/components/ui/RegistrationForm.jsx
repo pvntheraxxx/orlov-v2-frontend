@@ -16,8 +16,20 @@ const RegistrationForm = ({ open, onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [modalHeight, setModalHeight] = useState("auto");
 
-  // Сброс полей, когда модальное окно закрывается
+  // Следим за изменением высоты экрана (чтобы не сжималась форма)
+  useEffect(() => {
+    const handleResize = () => {
+      const newHeight = window.innerHeight < 700 ? "90vh" : "auto"; // Если клавиатура поднялась, ограничиваем высоту
+      setModalHeight(newHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Сброс полей при закрытии модального окна
   useEffect(() => {
     if (!open) {
       setName("");
@@ -33,7 +45,7 @@ const RegistrationForm = ({ open, onClose }) => {
       return;
     }
     console.log("Регистрация...");
-    onClose(); // Закрытие формы после успешной регистрации
+    onClose();
   };
 
   return (
@@ -42,14 +54,13 @@ const RegistrationForm = ({ open, onClose }) => {
       onClose={onClose}
       sx={{
         zIndex: 10000,
-        borderRadius: "15px",
         "& .MuiDialog-paper": {
           width: "350px",
           borderRadius: "15px",
-          overflowX: "hidden",
-          // bgcolor: "background.paper",
-          // bgcolor: "#222222",
-          bgcolor: "#181818",
+          background: "linear-gradient(50deg, #2C2C2C 2%, #2E2E2E 100%)",
+          color: "#F7E733", // Золотистый текст
+          border: "1px solid #2A2A2A", // Граница как у карточек
+          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.6)", // Тёмное свечение
         },
       }}
     >
@@ -74,10 +85,7 @@ const RegistrationForm = ({ open, onClose }) => {
             position: "absolute",
             right: 16,
             top: 10,
-            // color: "#F7E733",
-            "&:hover": {
-              cursor: "pointer",
-            },
+            "&:hover": { cursor: "pointer" },
           }}
         >
           <CloseIcon />
@@ -101,7 +109,7 @@ const RegistrationForm = ({ open, onClose }) => {
           variant="outlined"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          sx={{ borderRadius: "10px" }}
+          onFocus={() => setModalHeight("90vh")} // Увеличиваем, если появится клавиатура
         />
         <TextField
           margin="dense"
@@ -111,7 +119,7 @@ const RegistrationForm = ({ open, onClose }) => {
           variant="outlined"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          sx={{ borderRadius: "10px" }}
+          onFocus={() => setModalHeight("90vh")}
         />
         <TextField
           margin="dense"
@@ -121,7 +129,7 @@ const RegistrationForm = ({ open, onClose }) => {
           variant="outlined"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          sx={{ borderRadius: "10px" }}
+          onFocus={() => setModalHeight("90vh")}
         />
         <TextField
           margin="dense"
@@ -131,7 +139,7 @@ const RegistrationForm = ({ open, onClose }) => {
           variant="outlined"
           value={repeatPassword}
           onChange={(e) => setRepeatPassword(e.target.value)}
-          sx={{ borderRadius: "10px" }}
+          onFocus={() => setModalHeight("90vh")}
         />
       </DialogContent>
 
@@ -143,9 +151,7 @@ const RegistrationForm = ({ open, onClose }) => {
             width: "100%",
             borderRadius: "10px",
             backgroundColor: "primary.main",
-            "&:hover": {
-              backgroundColor: "primary.dark",
-            },
+            "&:hover": { backgroundColor: "primary.dark" },
           }}
         >
           Зарегистрироваться
@@ -165,14 +171,12 @@ const RegistrationForm = ({ open, onClose }) => {
         <IconButton
           disableRipple
           disableFocusRipple
-          color="inherit"
           sx={{
+            color: "primary.main",
             padding: "12px",
             borderRadius: "50%",
             backgroundColor: "transparent",
-            "&:hover": {
-              backgroundColor: "rgba(0, 0, 0, 0.1)",
-            },
+            "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" },
           }}
         >
           <FaYandex size={28} />
@@ -181,14 +185,12 @@ const RegistrationForm = ({ open, onClose }) => {
         <IconButton
           disableRipple
           disableFocusRipple
-          color="inherit"
           sx={{
+            color: "primary.main",
             padding: "12px",
             borderRadius: "50%",
             backgroundColor: "transparent",
-            "&:hover": {
-              backgroundColor: "rgba(0, 0, 0, 0.1)",
-            },
+            "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" },
           }}
         >
           <FaVk size={28} />

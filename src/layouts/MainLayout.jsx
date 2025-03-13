@@ -31,6 +31,7 @@ const MainLayout = () => {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <NavBar />
+
       <Box
         component="main"
         style={{

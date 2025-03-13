@@ -1,8 +1,8 @@
 import React from "react";
-import { ReviewsStream } from "../../components/features";
+import { Reviews } from "../../components/features";
 
-const Reviews = () => {
-  return <ReviewsStream />;
+const ReviewsPage = () => {
+  return <Reviews />;
 };
 
-export default Reviews;
+export default ReviewsPage;

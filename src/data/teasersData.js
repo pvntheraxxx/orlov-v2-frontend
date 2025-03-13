@@ -1,8 +1,8 @@
 import teaserOneImage from "../assets/teasers/teaserOneImage.webp";
-import teaserTwoImage from "../assets/teasers/teaserTwoImage.webp";
-import teaserThreeImage from "../assets/teasers/teaserThreeImage.webp";
-import teaserFourImage from "../assets/teasers/teaserFourImage.webp";
-import teaserFiveImage from "../assets/teasers/teaserFiveImage.webp";
+import teaserTwoImage from "../assets/catalog1.jpg";
+import teaserThreeImage from "../assets/teasers/delivery.jpg";
+import teaserFourImage from "../assets/teasers/teaserFiveImage.webp";
+import teaserFiveImage from "../assets/reviews.jpg";
 
 const teasersData = [
   {
@@ -47,7 +47,7 @@ const teasersData = [
     title: "Контакты",
     description:
       "В случае если у ВАС остались вопросы, свяжитесь с НАМИ любым удобным способом! Сотрудничество с нашей компанией или обратная связь с нашей командой. Мы всегда готовы помочь ВАМ и проконсультировать по любым вопросам!",
-    image: teaserFiveImage,
+    image: teaserFourImage,
     link: "/contacts",
     buttonText: "Связаться",
     textColor: "#fff",
@@ -60,7 +60,7 @@ const teasersData = [
     title: "Отзывы",
     description:
       "Наши клиенты — наша гордость! Ознакомьтесь с реальными отзывами о качестве НАШИХ товаров, сервисе и доставке. Оставляйте свои ОТЗЫВЫ и делитесь впечатлениями от продукции ORLOV. Мы дорожим Вашим доверием к НАМ и всегда стремимся к совершенству!",
-    image: teaserFourImage,
+    image: teaserFiveImage,
     link: "/reviews",
     buttonText: "Читать отзывы",
     textColor: "#fff",

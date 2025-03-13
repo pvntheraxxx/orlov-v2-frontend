@@ -72,7 +72,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-          // borderRadius: "10px",
+          borderRadius: "10px",
           color: "#181818", // Контрастный тёмный текст на кнопках
           backgroundColor: "#EFE393",
           "&:hover": {
@@ -83,30 +83,48 @@ const theme = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: {
+        // Глобальный CSS Reset и настройки для кроссбраузерности
+        "*": {
+          boxSizing: "border-box",
+          scrollbarWidth: "thin", // Firefox
+          scrollbarColor: "#EFE393 #2C2C2C", // (ползунок, дорожка) для Firefox
+        },
+        "html, body": {
+          margin: 0,
+          padding: 0,
+          width: "100%",
+          height: "100%",
+          WebkitTextSizeAdjust: "100%",
+          msTextSizeAdjust: "100%",
+          scrollBehavior: "smooth", // Плавная прокрутка
+        },
+        body: {
+          backgroundColor: "#181818",
+          minHeight: "100vh", // Фолбэк, если 100dvh не поддерживается
+          WebkitFontSmoothing: "antialiased",
+          MozOsxFontSmoothing: "grayscale",
+        },
+        // Стиль для скроллбара в WebKit-браузерах (Chrome, Safari, Edge)
         "::-webkit-scrollbar": {
-          width: "12px", // Ширина скроллбара для Chrome, Safari, Edge
+          width: "12px",
         },
         "::-webkit-scrollbar-track": {
-          background: "#2C2C2C", // Цвет дорожки
+          background: "#2C2C2C",
         },
         "::-webkit-scrollbar-thumb": {
-          backgroundColor: "#EFE393", // Лимоннозолотой цвет ползунка
+          backgroundColor: "#EFE393",
           borderRadius: "6px",
         },
         "::-webkit-scrollbar-thumb:hover": {
-          backgroundColor: "#D8D080", // Немного темнее при наведении
+          backgroundColor: "#D8D080",
         },
-        "*": {
-          scrollbarWidth: "thin", // Для Firefox
-          scrollbarColor: "#EFE393 #2C2C2C", // (ползунок, дорожка) для Firefox
+        
+        body: {
+          cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
         },
-     
-        // body: {
-        //   cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
-        // },
-        // "a, button": {
-        //   cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
-        // },
+        "a, button": {
+          cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
+        },
       },
     },
   },

@@ -24,9 +24,11 @@ const SupportButton = () => {
           width: { xs: 40, md: 56 },
           height: { xs: 40, md: 56 },
           minHeight: "auto",
-          outline: "none", // 🔥 Убираем фокусный контур
-          "&:focus": { outline: "none" }, // 🔥 Убираем для всех состояний
-          "&:focusVisible": { outline: "none" },
+          outline: "none",
+          boxShadow: "none",
+          "&:focus": { outline: "none" },
+          "&:focusVisible": { outline: "none" }, // 🔥 Отключаем оранжевый контур в Chrome
+          "&:active": { outline: "none", boxShadow: "none" },
         }}
         onClick={() => setOpen(true)}
       >
@@ -39,6 +41,8 @@ const SupportButton = () => {
         open={open}
         onClose={() => setOpen(false)}
         disableAutoFocus
+        disableEnforceFocus
+        keepMounted
       >
         <Box
           sx={{

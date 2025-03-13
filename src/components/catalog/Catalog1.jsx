@@ -53,24 +53,20 @@ export default function Catalog() {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
-        pt: 12, // Отступ сверху для компенсации NavBar
+        pt: 12,
       }}
     >
       <Container
-        maxWidth="xl"
+        maxWidth={false} // Позволяет контейнеру занимать всю ширину
         sx={{
           flexGrow: 1,
           px: { xs: 1, sm: 2, md: 4 },
           display: "flex",
           flexDirection: "column",
+          width: "100vw", // Растягивание контейнера на всю ширину экрана
         }}
       >
-        <Grid
-          container
-          spacing={2}
-          justifyContent="center"
-          sx={{ flexGrow: 1 }}
-        >
+        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
           <Grid item xs={12} md={3}>
             <Box sx={{ p: 2, bgcolor: "background.paper", borderRadius: 2 }}>
               <Typography variant="h6">Тип чехла</Typography>
@@ -108,74 +104,6 @@ export default function Catalog() {
                 <MenuItem value="Цена: по убыванию">Цена: по убыванию</MenuItem>
               </Select>
             </Box>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={9}
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="stretch"
-          >
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Поиск..."
-                variant="outlined"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                sx={{ mb: 2 }}
-              />
-            </Grid>
-            {filteredProducts.map((product) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                key={product.id}
-                sx={{ display: "flex" }}
-              >
-                <Card
-                  sx={{
-                    bgcolor: "background.paper",
-                    borderRadius: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "450px",
-                    width: "100%",
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    sx={{ height: 220, objectFit: "cover" }}
-                    image={product.image}
-                    alt={product.name}
-                  />
-                  <CardContent
-                    sx={{
-                      flexGrow: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Typography variant="h6">{product.name}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {product.price.toLocaleString()} ₽
-                    </Typography>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      sx={{ mt: 2, width: "100%" }}
-                    >
-                      Купить
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
           </Grid>
         </Grid>
       </Container>
