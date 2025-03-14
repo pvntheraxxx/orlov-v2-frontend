@@ -30,6 +30,7 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
+        zIndex: 100,
         bgcolor: "background.default",
         color: "text.primary",
         py: { xs: 4, md: 6 },

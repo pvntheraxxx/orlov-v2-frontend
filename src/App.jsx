@@ -13,27 +13,30 @@ import {
   ReviewsPage,
   NotFoundPage,
 } from "./pages";
+import { CartProvider } from "./contexts/CartContext.jsx";
 
 const App = () => {
   return (
-    <ResponsiveProvider>
-      <BrowserRouter>
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="/" element={<MainLayout />}>
-              <Route index element={<HomePage />} />
-              <Route path="about-us" element={<AboutUsPage />} />
-              <Route path="catalog" element={<CatalogPage />} />
-              <Route path="delivery" element={<DeliveryPage />} />
-              <Route path="contacts" element={<ContactsPage />} />
-              <Route path="reviews" element={<ReviewsPage />} />
-              <Route path="cart" element={<CartPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </ResponsiveProvider>
+    <CartProvider>
+      <ResponsiveProvider>
+        <BrowserRouter>
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              <Route path="/" element={<MainLayout />}>
+                <Route index element={<HomePage />} />
+                <Route path="about-us" element={<AboutUsPage />} />
+                <Route path="catalog" element={<CatalogPage />} />
+                <Route path="delivery" element={<DeliveryPage />} />
+                <Route path="contacts" element={<ContactsPage />} />
+                <Route path="reviews" element={<ReviewsPage />} />
+                <Route path="cart" element={<CartPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </ResponsiveProvider>
+    </CartProvider>
   );
 };
 

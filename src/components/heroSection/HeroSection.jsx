@@ -48,7 +48,7 @@ const HeroSection = () => {
       zIndex={10}
       px={2}
       sx={{
-        backgroundImage: `url(${backgroundImage})`,
+        // backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         overflow: "hidden",
@@ -63,7 +63,7 @@ const HeroSection = () => {
           left: 0,
           width: "100%",
           height: "100%",
-          background: "#181818",
+          // background: "#181818",
           zIndex: 2,
         },
       }}

@@ -1,18 +1,19 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { NavBar } from "../components/navBar";
 import { Footer } from "../components/footer";
 import { MobileBottomNav } from "../components/mobileMenu";
 import { useResponsive } from "../hooks/useResponsive";
-
 import { SupportButton, ScrollToTopButton } from "../components/ui";
+
 const MOBILE_NAV_HEIGHT = 64;
 
 const MainLayout = () => {
   const { isXs, isSm, isLgSm } = useResponsive();
   const isMobile = isXs || isSm || isLgSm;
   const [contentHeight, setContentHeight] = useState("auto");
+  const location = useLocation();
 
   useEffect(() => {
     const updateHeight = () => {
@@ -48,9 +49,9 @@ const MainLayout = () => {
         <Outlet />
       </Box>
 
-      {/* Добавляем кнопку поддержки в правом нижнем углу */}
-      <SupportButton />
-      <ScrollToTopButton />
+      {/* Кнопка поддержки не отображается на странице каталога */}
+      {location.pathname !== "/catalog" && <SupportButton />}
+      {location.pathname !== "/catalog" && <ScrollToTopButton />}
 
       {isMobile && (
         <MobileBottomNav
@@ -63,7 +64,9 @@ const MainLayout = () => {
           }}
         />
       )}
-      <Footer />
+
+      {/* Футер не рендерится на странице каталога */}
+      {location.pathname !== "/catalog" && <Footer />}
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -6,10 +6,12 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ReceiptLong from "@mui/icons-material/ReceiptLong";
+import Badge from "@mui/material/Badge";
 import { FaSearchDollar, FaUserTie, FaShoppingCart } from "react-icons/fa";
 import { useResponsive } from "../../hooks/useResponsive";
 import RegistrationForm from "../ui/RegistrationForm";
 import SearchMenu from "../ui/SearchMenu";
+import { CartContext } from "../../contexts/CartContext";
 
 const NavBar = () => {
   const { isXs, isSm, isLgSm, isMd, isLg } = useResponsive();
@@ -18,6 +20,9 @@ const NavBar = () => {
 
   const [openRegister, setOpenRegister] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  // Получаем данные из контекста корзины
+  const { cartItems } = useContext(CartContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -188,13 +193,22 @@ const NavBar = () => {
               >
                 <FaSearchDollar size={20} />
               </IconButton>
-              <IconButton
-                color="inherit"
-                sx={{ padding: "6px" }}
-                onClick={() => navigate("/cart")}
+
+              {/* Оборачиваем иконку корзины в Badge для отображения количества товаров */}
+              <Badge
+                badgeContent={cartItems.length}
+                color="error"
+                overlap="circular"
               >
-                <FaShoppingCart size={20} />
-              </IconButton>
+                <IconButton
+                  color="inherit"
+                  sx={{ padding: "6px" }}
+                  onClick={() => navigate("/cart")}
+                >
+                  <FaShoppingCart size={20} />
+                </IconButton>
+              </Badge>
+
               <IconButton
                 color="inherit"
                 sx={{ padding: "6px" }}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import {
   Grid,
   Card,
@@ -12,18 +12,10 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { CartContext } from "../../contexts/CartContext"; // Импорт контекста
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: "Чехол Premium", price: 4990, image: "/case1.jpg" },
-    { id: 2, name: "Кожаный чехол", price: 5990, image: "/case2.jpg" },
-    { id: 3, name: "Чехол Premium", price: 4990, image: "/case1.jpg" },
-    { id: 4, name: "Кожаный чехол", price: 5990, image: "/case2.jpg" },
-  ]);
-
-  const handleRemoveItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
+  const { cartItems, removeFromCart } = useContext(CartContext);
 
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price, 0);
 
@@ -36,25 +28,22 @@ const CartPage = () => {
         mt: "80px",
       }}
     >
-      {/* Заголовок */}
       <Typography
         variant="h4"
         sx={{ color: "text.primary", mb: 3, textAlign: "center" }}
       >
-        Ваша корзина
+        Корзина
       </Typography>
 
-      {/* Если корзина пуста */}
       {cartItems.length === 0 ? (
         <Typography
           variant="h5"
           sx={{ color: "text.primary", textAlign: "center", mt: 5 }}
         >
-          🛒 Ваша корзина пуста 😕
+          Ваша корзина пуста
         </Typography>
       ) : (
         <Grid container spacing={3} justifyContent="center">
-          {/* Карточки товаров (теперь слева) */}
           <Grid item xs={12} md={8}>
             <Grid container spacing={2}>
               {cartItems.map((item) => (
@@ -72,8 +61,7 @@ const CartPage = () => {
                         position: "relative",
                         borderRadius: 2,
                         overflow: "hidden",
-                        p: 1,
-                        boxShadow: 3,
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                       }}
                     >
                       <CardMedia
@@ -82,23 +70,29 @@ const CartPage = () => {
                         alt={item.name}
                         sx={{
                           width: "100%",
-                          height: 120,
+                          height: 180, // увеличенная высота
                           objectFit: "cover",
-                          borderRadius: 2,
+                          objectPosition: "top", // показываем верхнюю часть изображения
                         }}
                       />
-                      <CardContent sx={{ textAlign: "center" }}>
-                        <Typography variant="body1">{item.name}</Typography>
-                        <Typography variant="body1" color="primary">
+                      <CardContent sx={{ textAlign: "center", p: 1.5 }}>
+                        <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                          {item.name}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          color="primary"
+                          sx={{ mt: 0.5 }}
+                        >
                           ₽{item.price}
                         </Typography>
                       </CardContent>
                       <IconButton
-                        onClick={() => handleRemoveItem(item.id)}
+                        onClick={() => removeFromCart(item.uniqueId)}
                         sx={{
                           position: "absolute",
-                          top: 5,
-                          right: 5,
+                          top: 8,
+                          right: 8,
                           bgcolor: "rgba(0,0,0,0.5)",
                           color: "text.primary",
                           "&:hover": { bgcolor: "red" },
@@ -113,7 +107,6 @@ const CartPage = () => {
             </Grid>
           </Grid>
 
-          {/* Блок оплаты (теперь справа) */}
           <Grid item xs={12} md={4}>
             <Card
               component={motion.div}
@@ -129,7 +122,7 @@ const CartPage = () => {
                 position: "sticky",
                 top: "100px",
                 alignSelf: "start",
-                boxShadow: 3,
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
               }}
             >
               <Typography variant="h5" gutterBottom>
@@ -144,7 +137,7 @@ const CartPage = () => {
                 sx={{ bgcolor: "secondary.main", p: 2, borderRadius: 2, mb: 2 }}
               >
                 <Typography variant="h6" color="primary">
-                  🏷️ Итого: ₽{totalPrice}
+                  Итого: ₽{totalPrice}
                 </Typography>
               </Box>
               <Button
