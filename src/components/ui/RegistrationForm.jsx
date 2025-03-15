@@ -5,6 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
@@ -66,6 +67,7 @@ const RegistrationForm = ({ open, onClose }) => {
     >
       <DialogTitle
         sx={{
+          textAlign: "center",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -73,9 +75,9 @@ const RegistrationForm = ({ open, onClose }) => {
           paddingRight: "16px",
         }}
       >
-        <span style={{ userSelect: "none", cursor: "default" }}>
+        <Typography variant="h6" sx={{ width: "100%" }}>
           Регистрация
-        </span>
+        </Typography>
         <IconButton
           edge="end"
           color="inherit"

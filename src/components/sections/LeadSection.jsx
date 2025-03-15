@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom"; // <-- Импортируем навигацию
 
 import aboutUsImage from "../../assets/leadSection/about-us-image.webp";
 import contactsImage from "../../assets/leadSection/contacts-image.webp";
@@ -34,11 +35,20 @@ const HeroSection = ({
   title,
   description,
   buttonText,
+  buttonLink, // <-- Добавили ссылку для кнопки
   imagePosition,
   imageUrl,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const navigate = useNavigate(); // <-- Навигация
+
+  const handleButtonClick = () => {
+    navigate(buttonLink); // <-- Мгновенный переход
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "instant" }); // <-- Сброс скролла
+    }, 0);
+  };
 
   return (
     <Box
@@ -46,8 +56,8 @@ const HeroSection = ({
       variants={itemVariants}
       sx={{
         minHeight: {
-          xs: "100dvh", // Динамическая высота для мобильных устройств
-          md: "100vh", // Полный экран на компьютерах без перекрытия Footer
+          xs: "100dvh",
+          md: "100vh",
         },
         display: "flex",
         alignItems: "center",
@@ -102,6 +112,7 @@ const HeroSection = ({
             </Typography>
             <Button
               variant="contained"
+              onClick={handleButtonClick} // <-- Навигация при клике
               sx={{
                 backgroundColor: "#EFE393",
                 color: "#181818",
@@ -142,6 +153,7 @@ const AboutPage = () => (
       title="Искусство Элегантности"
       description="В Orlov мы создаем не просто аксессуары – мы создаем символы статуса, эксклюзивности и индивидуальности. Качество – наш приоритет. Мы тщательно отбираем материалы, гарантируя долговечность и совершенство каждой детали. Наши изделия подчеркивают ваш стиль, дополняя его роскошью и уникальностью."
       buttonText="Перейти в каталог"
+      buttonLink="/catalog" // <-- Передаем путь в каталог
       imagePosition="left"
       imageUrl={aboutUsImage}
     />
@@ -154,6 +166,7 @@ const ContactsPage = () => (
       title="Свяжитесь с нами"
       description="Наша команда всегда готова помочь вам. Если у вас есть вопросы о продукции, заказах или сотрудничестве – свяжитесь с нами любым удобным способом. Мы гарантируем оперативность и внимательное отношение к каждому клиенту. Мы высоко ценим доверие и предлагаем форматы общения для совместного успеха!"
       buttonText="Связаться"
+      buttonLink="/contacts" // <-- Передаем путь на страницу контактов
       imagePosition="left"
       imageUrl={contactsImage}
     />
@@ -166,6 +179,7 @@ const DeliveryPage = () => (
       title="Доставка"
       description="Мы обеспечиваем быструю и надежную доставку по всему миру. Наши товары тщательно упаковываются, чтобы гарантировать их сохранность. Если у вас возникли вопросы по возврату, мы предложим удобные решения в кратчайшие сроки. Мы также предлагаем подробное отслеживание и прозрачную консультационную поддержку."
       buttonText="Подробнее"
+      buttonLink="/delivery" // <-- Передаем путь на страницу доставки
       imagePosition="right"
       imageUrl={deliveryImage}
     />

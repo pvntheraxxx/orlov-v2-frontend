@@ -19,6 +19,7 @@ export const products = [
     color: "Черный",
     type: "Кожаные",
     image: product1,
+    tags: ["чехол", "премиум", "apple", "кожаный", "черный", "luxe", "аксессуар"],
   },
   {
     id: 2,
@@ -28,6 +29,7 @@ export const products = [
     color: "Коричневый",
     type: "Кожаные",
     image: product2,
+    tags: ["чехол", "кожаный", "элитный", "samsung", "коричневый", "аксессуар"],
   },
   {
     id: 3,
@@ -37,6 +39,7 @@ export const products = [
     color: "Золотой",
     type: "Кожаные",
     image: product3,
+    tags: ["чехол", "золотой", "тиснение", "xiaomi", "кожаный", "аксессуар"],
   },
   {
     id: 4,
@@ -46,6 +49,7 @@ export const products = [
     color: "Черный",
     type: "Металлические",
     image: product4,
+    tags: ["чехол", "carbon", "защита", "oneplus", "металлический", "черный", "аксессуар"],
   },
   {
     id: 5,
@@ -55,6 +59,7 @@ export const products = [
     color: "Белый",
     type: "Силиконовые",
     image: product5,
+    tags: ["чехол", "силиконовый", "мягкий", "google", "белый", "аксессуар"],
   },
   {
     id: 6,
@@ -64,6 +69,7 @@ export const products = [
     color: "Синий",
     type: "Силиконовые",
     image: product6,
+    tags: ["чехол", "ультратонкий", "huawei", "синий", "силиконовый", "аксессуар"],
   },
   {
     id: 7,
@@ -73,6 +79,7 @@ export const products = [
     color: "Серый",
     type: "Металлические",
     image: product7,
+    tags: ["чехол", "прочность", "armor", "samsung", "металлический", "серый", "аксессуар"],
   },
   {
     id: 8,
@@ -82,6 +89,7 @@ export const products = [
     color: "Красный",
     type: "Кожаные",
     image: product8,
+    tags: ["чехол", "flip", "apple", "кожаный", "красный", "аксессуар"],
   },
   {
     id: 9,
@@ -91,5 +99,6 @@ export const products = [
     color: "Черный",
     type: "Деревянные",
     image: product9,
+    tags: ["чехол", "матовый", "xiaomi", "деревянный", "черный", "аксессуар"],
   },
 ];

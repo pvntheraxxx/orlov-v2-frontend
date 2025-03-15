@@ -12,6 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useResponsive } from "../../hooks/useResponsive";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const SearchMenu = ({ open, onClose }) => {
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState("");
@@ -21,6 +22,33 @@ const SearchMenu = ({ open, onClose }) => {
   const buttonContainerRef = useRef(null);
   const searchFieldRef = useRef(null);
   const [inputWidth, setInputWidth] = useState("100%");
+
+  const resetSearchState = () => {
+    setSearchQuery("");
+  };
+
+  // State and hooks
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  // Обработчик отправки формы поиска
+  const handleSearchSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const query = searchQuery.trim();
+      if (query) {
+        navigate(`/catalog?search=${encodeURIComponent(query)}`);
+        onClose();
+        resetSearchState();
+      }
+    },
+    [navigate, searchQuery, onClose]
+  );
+
+  // Обработчик изменения текста поиска
+  const handleInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
   const handleClose = useCallback(() => {
     window.scrollTo(0, 0);
@@ -162,6 +190,9 @@ const SearchMenu = ({ open, onClose }) => {
               inputRef={searchFieldRef}
               placeholder={animatedPlaceholder}
               variant="outlined"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit(e)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

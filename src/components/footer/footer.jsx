@@ -20,9 +20,10 @@ const Footer = () => {
 
   const handleMenuClick = (path) => {
     if (location.pathname === path) {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: "instant" });
     } else {
-      navigate(path);
+      window.scrollTo({ top: 0, behavior: "instant" });
+      setTimeout(() => navigate(path), 0);
     }
   };
 

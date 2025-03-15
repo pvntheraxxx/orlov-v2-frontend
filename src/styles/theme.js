@@ -106,7 +106,7 @@ const theme = createTheme({
         },
         // Стиль для скроллбара в WebKit-браузерах (Chrome, Safari, Edge)
         "::-webkit-scrollbar": {
-          width: "12px",
+          // width: "12px",
         },
         "::-webkit-scrollbar-track": {
           background: "#2C2C2C",
@@ -119,12 +119,12 @@ const theme = createTheme({
           backgroundColor: "#D8D080",
         },
         
-        body: {
-          cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
-        },
-        "a, button": {
-          cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
-        },
+        // body: {
+        //   cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
+        // },
+        // "a, button": {
+        //   cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
+        // },
       },
     },
   },

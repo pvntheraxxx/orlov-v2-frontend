@@ -1,8 +1,8 @@
-import { Suspense } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ResponsiveProvider } from "./hooks/useResponsive";
 import { MainLayout } from "./layouts";
-import { Loader } from "./components/ui";
+import { Loader, ScrollToTop } from "./components/ui";
 import {
   HomePage,
   AboutUsPage,
@@ -14,13 +14,30 @@ import {
   NotFoundPage,
 } from "./pages";
 import { CartProvider } from "./contexts/CartContext.jsx";
+import { LoadingScreen } from "./components/LoadingScreen"; // Подключаем компонент
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadAssets = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 4000));
+      setIsLoading(false);
+    };
+
+    loadAssets();
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <CartProvider>
       <ResponsiveProvider>
         <BrowserRouter>
           <Suspense fallback={<Loader />}>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route index element={<HomePage />} />

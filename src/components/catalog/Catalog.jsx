@@ -18,6 +18,8 @@ import {
 } from "@mui/material";
 import { products } from "../../data/productsData"; // импорт данных
 import { CartContext } from "../../contexts/CartContext"; // импорт контекста корзины
+import { motion } from "framer-motion";
+import { useSearchParams } from "react-router-dom";
 
 export default function Catalog() {
   const initialPriceRange = [4999, 20000];
@@ -57,7 +59,12 @@ export default function Catalog() {
     let filtered = products.filter((product) => {
       if (
         searchQuery &&
-        !product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        !(
+          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.tags.some((tag) =>
+            tag.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+        )
       ) {
         return false;
       }
@@ -98,6 +105,15 @@ export default function Catalog() {
     setTimeout(() => setModalOpen(false), 1500);
   };
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const query = searchParams.get("search");
+    if (query) {
+      setSearchQuery(query);
+    }
+  }, [searchParams]);
+
   return (
     <Box
       sx={{
@@ -116,6 +132,20 @@ export default function Catalog() {
           flexDirection: isMobile ? "column" : "row",
           width: "100%",
           p: 0,
+          scrollbarWidth: "thin",
+          "&::-webkit-scrollbar": {
+            width: "12px",
+          },
+          "&::-webkit-scrollbar-track": {
+            background: theme.palette.secondary.main,
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: theme.palette.primary.main,
+            borderRadius: "6px",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#D8D080",
+          },
         }}
       >
         {/* Фильтры */}
@@ -241,6 +271,7 @@ export default function Catalog() {
                 <Grid item xs={12} sm={6} md={4} key={product.id}>
                   <Card
                     sx={{
+                      cursor: "pointer",
                       position: "relative",
                       height: { xs: "400px", md: "600px" },
                       borderRadius: "16px",
@@ -305,28 +336,39 @@ export default function Catalog() {
 
       {/* Модальное окно для уведомления */}
       <Modal
-        sx={{ zIndex: 9999999 }}
+        sx={{
+          zIndex: 9999999,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
         open={modalOpen}
         onClose={handleModalClose}
       >
-        <Box
-          sx={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-            borderRadius: 2,
-            textAlign: "center",
-          }}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
         >
-          <Typography variant="h6">Товар добавлен в корзину!</Typography>
-          <Button onClick={handleModalClose} sx={{ mt: 2 }} variant="contained">
-            OK
-          </Button>
-        </Box>
+          <Box
+            sx={{
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: 2,
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h6">Товар добавлен в корзину!</Typography>
+            <Button
+              onClick={handleModalClose}
+              sx={{ mt: 2 }}
+              variant="contained"
+            >
+              OK
+            </Button>
+          </Box>
+        </motion.div>
       </Modal>
     </Box>
   );

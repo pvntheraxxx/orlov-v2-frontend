@@ -9,7 +9,7 @@ import ReceiptLong from "@mui/icons-material/ReceiptLong";
 import Badge from "@mui/material/Badge";
 import { FaSearchDollar, FaUserTie, FaShoppingCart } from "react-icons/fa";
 import { useResponsive } from "../../hooks/useResponsive";
-import RegistrationForm from "../ui/RegistrationForm";
+import LoginForm from "../ui/LoginForm";
 import SearchMenu from "../ui/SearchMenu";
 import { CartContext } from "../../contexts/CartContext";
 
@@ -18,7 +18,7 @@ const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [openRegister, setOpenRegister] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
   // Получаем данные из контекста корзины
@@ -35,15 +35,20 @@ const NavBar = () => {
   const handleMenuClick = (path) => {
     if (location.pathname === path) {
       window.scrollTo(0, 0);
+    } else {
+      navigate(path);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }, 0);
     }
   };
 
   const handleUserClick = () => {
-    setOpenRegister(true); // Открыть форму регистрации
+    setOpenLogin(true); // Открыть форму регистрации
   };
 
-  const handleCloseRegister = () => {
-    setOpenRegister(false); // Закрыть форму регистрации
+  const handleCloseLogin = () => {
+    setOpenLogin(false); // Закрыть форму регистрации
   };
 
   const isTablet = isMd || isLg;
@@ -225,7 +230,7 @@ const NavBar = () => {
       <SearchMenu open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* Модальное окно с формой регистрации */}
-      <RegistrationForm open={openRegister} onClose={handleCloseRegister} />
+      <LoginForm open={openLogin} onClose={handleCloseLogin} />
     </>
   );
 };

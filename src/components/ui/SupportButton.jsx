@@ -25,7 +25,7 @@ const SupportButton = () => {
           height: { xs: 40, md: 56 },
           minHeight: "auto",
           outline: "none",
-          boxShadow: "none",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
           "&:focus": { outline: "none" },
           "&:focusVisible": { outline: "none" }, // 🔥 Отключаем оранжевый контур в Chrome
           "&:active": { outline: "none", boxShadow: "none" },
@@ -37,7 +37,7 @@ const SupportButton = () => {
 
       {/* Модальное окно */}
       <Modal
-        sx={{ zIndex: 10000 }}
+        sx={{ zIndex: 10000, outline: "none" }}
         open={open}
         onClose={() => setOpen(false)}
         disableAutoFocus
@@ -46,6 +46,7 @@ const SupportButton = () => {
       >
         <Box
           sx={{
+            outline: "none",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
