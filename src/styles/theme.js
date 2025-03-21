@@ -119,12 +119,12 @@ const theme = createTheme({
           backgroundColor: "#D8D080",
         },
         
-        // body: {
-        //   cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
-        // },
-        // "a, button": {
-        //   cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
-        // },
+        body: {
+          cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
+        },
+        "a, button": {
+          cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
+        },
       },
     },
   },

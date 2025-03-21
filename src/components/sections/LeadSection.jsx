@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useTheme } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom"; // <-- Импортируем навигацию
+import { useNavigate } from "react-router-dom";
 
 import aboutUsImage from "../../assets/leadSection/about-us-image.webp";
 import contactsImage from "../../assets/leadSection/contacts-image.webp";
@@ -35,18 +35,18 @@ const HeroSection = ({
   title,
   description,
   buttonText,
-  buttonLink, // <-- Добавили ссылку для кнопки
+  buttonLink,
   imagePosition,
   imageUrl,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const navigate = useNavigate(); // <-- Навигация
+  const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate(buttonLink); // <-- Мгновенный переход
+    navigate(buttonLink);
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "instant" }); // <-- Сброс скролла
+      window.scrollTo({ top: 0, behavior: "instant" });
     }, 0);
   };
 
@@ -55,10 +55,7 @@ const HeroSection = ({
       component={motion.section}
       variants={itemVariants}
       sx={{
-        minHeight: {
-          xs: "100dvh",
-          md: "100vh",
-        },
+        minHeight: { xs: "100dvh", md: "100vh" },
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -112,7 +109,7 @@ const HeroSection = ({
             </Typography>
             <Button
               variant="contained"
-              onClick={handleButtonClick} // <-- Навигация при клике
+              onClick={handleButtonClick}
               sx={{
                 backgroundColor: "#EFE393",
                 color: "#181818",
@@ -150,10 +147,10 @@ const HeroSection = ({
 const AboutPage = () => (
   <motion.div initial="hidden" animate="visible" variants={containerVariants}>
     <HeroSection
-      title="Искусство Элегантности"
-      description="В Orlov мы создаем не просто аксессуары – мы создаем символы статуса, эксклюзивности и индивидуальности. Качество – наш приоритет. Мы тщательно отбираем материалы, гарантируя долговечность и совершенство каждой детали. Наши изделия подчеркивают ваш стиль, дополняя его роскошью и уникальностью."
+      title="MADE IN RUSSIA"
+      description="В компании ORLOV мы создаем не просто аксессуары - мы создаем символы СТАТУСА, эксклюзивности и индивидуальности. Наша визитная карточка это премиальное обслуживание, где МЫ находим подход к каждому клиенту. Мы тщательно отбираем материалы, гарантируя долговечность и совершенство каждой детали. Наши изделия подчеркивают Ваш СТИЛЬ, дополняя его роскошью и уникальностью."
       buttonText="Перейти в каталог"
-      buttonLink="/catalog" // <-- Передаем путь в каталог
+      buttonLink="/catalog"
       imagePosition="left"
       imageUrl={aboutUsImage}
     />
@@ -163,10 +160,10 @@ const AboutPage = () => (
 const ContactsPage = () => (
   <motion.div initial="hidden" animate="visible" variants={containerVariants}>
     <HeroSection
-      title="Свяжитесь с нами"
-      description="Наша команда всегда готова помочь вам. Если у вас есть вопросы о продукции, заказах или сотрудничестве – свяжитесь с нами любым удобным способом. Мы гарантируем оперативность и внимательное отношение к каждому клиенту. Мы высоко ценим доверие и предлагаем форматы общения для совместного успеха!"
+      title="СВЯЖИТЕСЬ С НАМИ"
+      description="Наша команда всегда готова помочь Вам 24/7. Если у Вас есть вопросы о продукции, заказах или сотрудничестве - свяжитесь С НАМИ любым удобным способом! Мы гарантируем оперативность и внимательное отношение к деталям. Мы ЦЕНИМ доверие клиентов к нашей компании и предлагаем форматы общения для достижения совместного результата."
       buttonText="Связаться"
-      buttonLink="/contacts" // <-- Передаем путь на страницу контактов
+      buttonLink="/contacts"
       imagePosition="left"
       imageUrl={contactsImage}
     />
@@ -176,10 +173,10 @@ const ContactsPage = () => (
 const DeliveryPage = () => (
   <motion.div initial="hidden" animate="visible" variants={containerVariants}>
     <HeroSection
-      title="Доставка"
-      description="Мы обеспечиваем быструю и надежную доставку по всему миру. Наши товары тщательно упаковываются, чтобы гарантировать их сохранность. Если у вас возникли вопросы по возврату, мы предложим удобные решения в кратчайшие сроки. Мы также предлагаем подробное отслеживание и прозрачную консультационную поддержку."
+      title="ДОСТАВКА ПО МИРУ"
+      description="Мы обеспечиваем быструю и надежную доставку по России и МИРУ. Наши товары тщательно упаковываются, чтобы гарантировать их сохранность. Выберите любой способ доставки из предложенных вариантов. Если у Вас возникли вопросы по логистике, мы предложим удобные решения в кратчайшие сроки. Мы предлагаем подробное отслеживание и прозрачную консультационную поддержку по товарам."
       buttonText="Подробнее"
-      buttonLink="/delivery" // <-- Передаем путь на страницу доставки
+      buttonLink="/delivery"
       imagePosition="right"
       imageUrl={deliveryImage}
     />

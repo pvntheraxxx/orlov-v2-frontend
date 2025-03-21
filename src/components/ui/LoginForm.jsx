@@ -10,9 +10,10 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import { FaVk, FaYandex } from "react-icons/fa";
+import { API_BASE_URL } from "../../config";
 import RegistrationForm from "./RegistrationForm";
 
-const LoginForm = ({ open, onClose }) => {
+const LoginForm = ({ open, onClose, setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
@@ -25,12 +26,36 @@ const LoginForm = ({ open, onClose }) => {
     }
   }, [open]);
 
-  const handleLogin = () => {
-    console.log("Вход в аккаунт...");
-    onClose();
+  // Функция для логина с запросом к бэкенду
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert("✅ Вход выполнен успешно!");
+        console.log("✅ Авторизация успешна:", data);
+        // Здесь предполагается, что сервер возвращает объект с полем user
+        // Если сервер возвращает, например, { access_token, user: { name, ... } }
+        // то вызываем setUser(data.user). Если нет, можно передать данные из email.
+        setUser(data.user || { name: email });
+        // Опционально: сохранить токен
+        // localStorage.setItem("token", data.access_token);
+        onClose();
+      } else {
+        alert(`❌ Ошибка входа: ${data.message || "Неизвестная ошибка"}`);
+      }
+    } catch (error) {
+      console.error("❌ Ошибка сети при входе:", error);
+      alert("❌ Ошибка сети, попробуйте снова.");
+    }
   };
 
   return isRegistering ? (
+    // Если пользователь хочет зарегистрироваться, открываем форму регистрации
     <RegistrationForm open={open} onClose={onClose} />
   ) : (
     <Dialog

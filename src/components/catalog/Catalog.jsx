@@ -19,7 +19,7 @@ import {
 import { products } from "../../data/productsData"; // импорт данных
 import { CartContext } from "../../contexts/CartContext"; // импорт контекста корзины
 import { motion } from "framer-motion";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 export default function Catalog() {
   const initialPriceRange = [4999, 20000];
@@ -114,6 +114,9 @@ export default function Catalog() {
     }
   }, [searchParams]);
 
+  // Хук для навигации на страницу товара
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -151,6 +154,7 @@ export default function Catalog() {
         {/* Фильтры */}
         <Box
           sx={{
+            cursor: "../../../public/assets/cursor/cursor-pointer.png",
             position: isMobile ? "relative" : "fixed",
             top: isMobile ? "auto" : 96,
             height: isMobile ? "auto" : "calc(100vh - 112px)",
@@ -158,7 +162,6 @@ export default function Catalog() {
             p: 2,
             bgcolor: "background.paper",
             borderRadius: 2,
-            // На мобильных делаем колонку уже с отступами по бокам
             width: isMobile ? "calc(100% - 32px)" : "20%",
             mx: isMobile ? 2 : 0,
             mb: isMobile ? 2 : 0,
@@ -225,7 +228,9 @@ export default function Catalog() {
             fullWidth
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
-            sx={{ mb: 2 }}
+            sx={{
+              mb: 2,
+            }}
           >
             <MenuItem value="Популярные">Популярные</MenuItem>
             <MenuItem value="Цена: по возрастанию">
@@ -271,7 +276,6 @@ export default function Catalog() {
                 <Grid item xs={12} sm={6} md={4} key={product.id}>
                   <Card
                     sx={{
-                      cursor: "pointer",
                       position: "relative",
                       height: { xs: "400px", md: "600px" },
                       borderRadius: "16px",
@@ -279,10 +283,13 @@ export default function Catalog() {
                       boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
                       transition: "transform 0.3s, box-shadow 0.3s",
                       "&:hover": {
+                        cursor:
+                          "../../../public/assets/cursor/cursor-pointer.png",
                         transform: "translateY(-5px)",
                         boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
                       },
                     }}
+                    onClick={() => navigate(`/catalog/${product.id}`)}
                   >
                     {/* Фоновое изображение */}
                     <Box
@@ -321,7 +328,10 @@ export default function Catalog() {
                           borderRadius: "8px",
                         }}
                         fullWidth
-                        onClick={() => handleBuyClick(product)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBuyClick(product);
+                        }}
                       >
                         Купить
                       </Button>

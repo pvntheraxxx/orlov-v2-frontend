@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,9 +9,19 @@ import ReceiptLong from "@mui/icons-material/ReceiptLong";
 import Badge from "@mui/material/Badge";
 import { FaSearchDollar, FaUserTie, FaShoppingCart } from "react-icons/fa";
 import { useResponsive } from "../../hooks/useResponsive";
-import LoginForm from "../ui/LoginForm";
+import LoginForm from "../ui/LoginForm"; // Используем форму входа
 import SearchMenu from "../ui/SearchMenu";
 import { CartContext } from "../../contexts/CartContext";
+
+// Дополнительные импорты для модальных окон и уведомлений
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const NavBar = () => {
   const { isXs, isSm, isLgSm, isMd, isLg } = useResponsive();
@@ -21,8 +31,12 @@ const NavBar = () => {
   const [openLogin, setOpenLogin] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
-  // Получаем данные из контекста корзины
-  const { cartItems } = useContext(CartContext);
+  // Состояния авторизации
+  const [user, setUser] = useState(null);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [loginSuccessOpen, setLoginSuccessOpen] = useState(false);
+  // Состояние для видимости бейджа (восклицательного знака)
+  const [badgeVisible, setBadgeVisible] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,12 +57,28 @@ const NavBar = () => {
     }
   };
 
+  // Если пользователь авторизован, открываем окно профиля, иначе форму входа
   const handleUserClick = () => {
-    setOpenLogin(true); // Открыть форму регистрации
+    if (user) {
+      // Скрываем бейдж после клика
+      setBadgeVisible(false);
+      setOpenProfile(true);
+    } else {
+      setOpenLogin(true);
+    }
   };
 
   const handleCloseLogin = () => {
-    setOpenLogin(false); // Закрыть форму регистрации
+    setOpenLogin(false);
+  };
+
+  // Функция выхода из аккаунта
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setOpenProfile(false);
+    alert("Вы успешно вышли из аккаунта");
   };
 
   const isTablet = isMd || isLg;
@@ -199,12 +229,8 @@ const NavBar = () => {
                 <FaSearchDollar size={20} />
               </IconButton>
 
-              {/* Оборачиваем иконку корзины в Badge для отображения количества товаров */}
-              <Badge
-                badgeContent={cartItems.length}
-                color="error"
-                overlap="circular"
-              >
+              {/* Пример корзины с Badge (0 товаров) с переходом на страницу корзины */}
+              <Badge badgeContent={0} color="error" overlap="circular">
                 <IconButton
                   color="inherit"
                   sx={{ padding: "6px" }}
@@ -214,13 +240,41 @@ const NavBar = () => {
                 </IconButton>
               </Badge>
 
-              <IconButton
-                color="inherit"
-                sx={{ padding: "6px" }}
-                onClick={handleUserClick}
-              >
-                <FaUserTie size={20} />
-              </IconButton>
+              {/* Иконка профиля с бейджем, который исчезает после клика */}
+              {user ? (
+                badgeVisible ? (
+                  <Badge
+                    overlap="circular"
+                    color="error"
+                    badgeContent="!"
+                    variant="standard"
+                  >
+                    <IconButton
+                      color="inherit"
+                      sx={{ padding: "6px" }}
+                      onClick={handleUserClick}
+                    >
+                      <FaUserTie size={20} />
+                    </IconButton>
+                  </Badge>
+                ) : (
+                  <IconButton
+                    color="inherit"
+                    sx={{ padding: "6px" }}
+                    onClick={handleUserClick}
+                  >
+                    <FaUserTie size={20} />
+                  </IconButton>
+                )
+              ) : (
+                <IconButton
+                  color="inherit"
+                  sx={{ padding: "6px" }}
+                  onClick={handleUserClick}
+                >
+                  <FaUserTie size={20} />
+                </IconButton>
+              )}
             </Box>
           </Toolbar>
         </AppBar>
@@ -229,10 +283,123 @@ const NavBar = () => {
       {/* Поисковое меню для десктопа */}
       <SearchMenu open={searchOpen} onClose={() => setSearchOpen(false)} />
 
-      {/* Модальное окно с формой регистрации */}
-      <LoginForm open={openLogin} onClose={handleCloseLogin} />
+      {/* Модальное окно с формой входа */}
+      <LoginForm
+        open={openLogin}
+        onClose={handleCloseLogin}
+        setUser={(userData) => {
+          setUser(userData);
+          setBadgeVisible(true); // Показываем бейдж после входа
+          setLoginSuccessOpen(true);
+        }}
+      />
+
+      {/* Модальное окно профиля */}
+      <ProfileModal
+        open={openProfile}
+        onClose={() => setOpenProfile(false)}
+        user={user}
+        handleLogout={handleLogout}
+      />
+
+      {/* Уведомление о успешном входе */}
+      <Snackbar
+        open={loginSuccessOpen}
+        autoHideDuration={3000}
+        onClose={() => setLoginSuccessOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setLoginSuccessOpen(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Вы успешно вошли в систему!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
 
 export default NavBar;
+
+// Компонент ProfileModal для отображения профиля с кнопкой выхода
+const ProfileModal = ({ open, onClose, user, handleLogout }) => {
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      sx={{
+        zIndex: 10000,
+        "& .MuiDialog-paper": {
+          width: "300px",
+          borderRadius: "15px",
+          background: "linear-gradient(50deg, #2C2C2C, #2E2E2E)",
+          color: "#F7E733",
+          border: "1px solid #2A2A2A",
+          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.6)",
+        },
+      }}
+    >
+      <DialogTitle
+        sx={{
+          textAlign: "center",
+          position: "relative",
+          paddingRight: "16px",
+        }}
+      >
+        <Typography variant="h6" sx={{ width: "100%" }}>
+          Профиль
+        </Typography>
+        <IconButton
+          edge="end"
+          color="inherit"
+          onClick={onClose}
+          aria-label="close"
+          sx={{
+            position: "absolute",
+            right: 16,
+            top: "50%",
+            transform: "translateY(-50%)",
+            "&:hover": { cursor: "pointer" },
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent
+        sx={{
+          padding: "16px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "10px",
+        }}
+      >
+        <Typography variant="body1" align="center">
+          Добро пожаловать в личный кабинет!
+        </Typography>
+      </DialogContent>
+      <DialogActions
+        sx={{
+          padding: "0 16px",
+          justifyContent: "center",
+          mb: 2,
+        }}
+      >
+        <Button
+          onClick={handleLogout}
+          variant="contained"
+          sx={{
+            width: "100%",
+            borderRadius: "10px",
+            backgroundColor: "primary.main",
+            "&:hover": { backgroundColor: "primary.dark" },
+          }}
+        >
+          Выйти из аккаунта
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

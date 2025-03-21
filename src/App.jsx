@@ -14,7 +14,8 @@ import {
   NotFoundPage,
 } from "./pages";
 import { CartProvider } from "./contexts/CartContext.jsx";
-import { LoadingScreen } from "./components/LoadingScreen"; // Подключаем компонент
+// import { LoadingScreen } from "./components/LoadingScreen"; // Подключаем компонент
+import ProductDetails from "./components/catalog/ProductDetails.jsx";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,9 +29,9 @@ const App = () => {
     loadAssets();
   }, []);
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
   return (
     <CartProvider>
@@ -43,6 +44,7 @@ const App = () => {
                 <Route index element={<HomePage />} />
                 <Route path="about-us" element={<AboutUsPage />} />
                 <Route path="catalog" element={<CatalogPage />} />
+                <Route path="/catalog/:id" element={<ProductDetails />} />
                 <Route path="delivery" element={<DeliveryPage />} />
                 <Route path="contacts" element={<ContactsPage />} />
                 <Route path="reviews" element={<ReviewsPage />} />

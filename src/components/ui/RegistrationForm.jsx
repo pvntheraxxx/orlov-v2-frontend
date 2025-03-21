@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import { FaVk, FaYandex } from "react-icons/fa";
+import { API_BASE_URL } from "../../config";
 
 const RegistrationForm = ({ open, onClose }) => {
   // Состояния для полей формы
@@ -22,7 +23,7 @@ const RegistrationForm = ({ open, onClose }) => {
   // Следим за изменением высоты экрана (чтобы не сжималась форма)
   useEffect(() => {
     const handleResize = () => {
-      const newHeight = window.innerHeight < 700 ? "90vh" : "auto"; // Если клавиатура поднялась, ограничиваем высоту
+      const newHeight = window.innerHeight < 700 ? "90vh" : "auto";
       setModalHeight(newHeight);
     };
 
@@ -40,13 +41,60 @@ const RegistrationForm = ({ open, onClose }) => {
     }
   }, [open]);
 
-  const handleRegister = () => {
+  // Функция для логина после регистрации
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log("✅ Авторизован:", data);
+        // Например, сохранить токен:
+        // localStorage.setItem("token", data.token);
+      } else {
+        alert(
+          `❌ Ошибка при авторизации: ${data.message || "Неизвестная ошибка"}`
+        );
+      }
+    } catch (error) {
+      console.error("❌ Ошибка сети при авторизации:", error);
+      alert("❌ Ошибка сети, попробуйте снова.");
+    }
+  };
+
+  // Функция для регистрации
+  const handleRegister = async () => {
     if (password !== repeatPassword) {
-      alert("Пароли не совпадают!");
+      alert("❌ Пароли не совпадают!");
       return;
     }
-    console.log("Регистрация...");
-    onClose();
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        // Подтверждение об удачной регистрации
+        alert("✅ Регистрация прошла успешно!");
+        console.log("✅ Регистрация успешна:", data);
+        // После успешной регистрации сразу логинимся:
+        await handleLogin();
+        onClose(); // Закрываем модальное окно или делаем другую логику
+      } else {
+        alert(`❌ Ошибка: ${data.message || "Неизвестная ошибка"}`);
+      }
+    } catch (error) {
+      console.error("❌ Ошибка сети при регистрации:", error);
+      alert("❌ Ошибка сети, попробуйте снова.");
+    }
   };
 
   return (
@@ -59,9 +107,9 @@ const RegistrationForm = ({ open, onClose }) => {
           width: "350px",
           borderRadius: "15px",
           background: "linear-gradient(50deg, #2C2C2C 2%, #2E2E2E 100%)",
-          color: "#F7E733", // Золотистый текст
-          border: "1px solid #2A2A2A", // Граница как у карточек
-          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.6)", // Тёмное свечение
+          color: "#F7E733",
+          border: "1px solid #2A2A2A",
+          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.6)",
         },
       }}
     >
@@ -111,7 +159,7 @@ const RegistrationForm = ({ open, onClose }) => {
           variant="outlined"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          onFocus={() => setModalHeight("90vh")} // Увеличиваем, если появится клавиатура
+          onFocus={() => setModalHeight("90vh")}
         />
         <TextField
           margin="dense"

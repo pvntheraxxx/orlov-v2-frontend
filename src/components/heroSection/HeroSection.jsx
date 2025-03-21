@@ -2,22 +2,20 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useResponsive } from "../../hooks/useResponsive";
-import Logo from "../../assets/heroSection/Logo.svg?react";
+import Logo from "../../assets/heroSection/Logo2.svg?react";
 import backgroundImage from "../../assets/heroSection/background4.webp";
+import { useMediaQuery } from "@mui/material";
 
 const HeroSection = () => {
   const { isSm, isMd, isLg } = useResponsive();
   const [viewportHeight, setViewportHeight] = useState("100vh");
-  const [extraMarginTop, setExtraMarginTop] = useState(0);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     const updateHeight = () => {
       const bottomNavHeight = isSm ? 60 : 0;
       const availableHeight = window.innerHeight - bottomNavHeight;
       setViewportHeight(`${availableHeight}px`);
-
-      // Если высота экрана меньше 800px (примерно как у Redmi Note 8T), добавляем отступ
-      setExtraMarginTop(window.innerHeight < 800 ? 15 : 0);
     };
 
     updateHeight();
@@ -42,20 +40,18 @@ const HeroSection = () => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      height={viewportHeight}
       width="100%"
       position="relative"
       zIndex={10}
       px={2}
       sx={{
-        // backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         overflow: "hidden",
         flexShrink: 0,
-        pt: isSm ? "60px" : 5,
-        pb: isSm ? "0px" : "5px",
-        marginTop: { xs: `-${32 - extraMarginTop}px`, sm: "0px" }, // Динамический отступ
+        height: isMobile ? "100vh" : viewportHeight, // Растягиваем на всю высоту на мобильных
+        minHeight: "100vh", // Минимальная высота 100vh, чтобы избежать проблем на iOS
         "&::before": {
           content: '""',
           position: "absolute",
@@ -63,7 +59,8 @@ const HeroSection = () => {
           left: 0,
           width: "100%",
           height: "100%",
-          // background: "#181818",
+          background:
+            "linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.35))",
           zIndex: 2,
         },
       }}
@@ -80,61 +77,47 @@ const HeroSection = () => {
       />
 
       <Box
+        textAlign="center"
+        py={isMobile ? 3 : 5}
+        px={isMobile ? 2 : 4}
         sx={{
-          position: "relative",
-          zIndex: 4,
-          textAlign: "center",
-          maxWidth: "90%",
-          flexGrow: 1,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: "5px",
-          borderRadius: "10px",
+          zIndex: 2,
+          borderRadius: isMobile ? 2 : 4,
         }}
       >
         <Typography
-          variant="h5"
-          sx={{
-            mt: isSm ? 1 : 3,
-            fontSize: isSm ? "0.9rem" : "1.3rem",
-            fontWeight: "bold",
-            color: "#EFE393",
-            textShadow: "0px 0px 1px rgba(255, 255, 150, 0.5)",
-          }}
+          variant={isMobile ? "h5" : "h4"}
+          fontWeight="bold"
+          gutterBottom
         >
-          Чехол для iPhone — это отражение сущности человека.
+          СТИЛЬ и РАНГ — это ГЛАВНЫЕ детали для ЛИДЕРА в глобальном МИРЕ!
         </Typography>
 
-        <Typography
-          variant="body1"
+        <Box
           sx={{
-            mt: 1,
-            fontSize: isSm ? "0.8rem" : "19.2px",
-            color: "#EFE393",
-            textShadow: "0px 0px 1px rgba(255, 255, 150, 0.5)",
+            maxWidth: isMobile ? "100%" : 900,
+            mx: "auto",
           }}
         >
-          Премиальный бренд аксессуаров <b>“ORLOV”</b> создаст для Вас
-          уникальный <b>ОБРАЗ</b>. Авторский стиль и эксклюзивный дизайн
-          подчеркнут <b>СТАТУС</b> обладателя. Идеально для подарка или
-          эксклюзивно для <i>СЕБЯ</i>. Только высококачественные материалы и
-          первоклассное обслуживание.
-          <b> Лучшее для Лучших.</b>
-        </Typography>
-
-        <Typography
-          variant="body2"
-          sx={{
-            mt: 1,
-            fontSize: isSm ? "0.7rem" : "0.9rem",
-            fontStyle: "italic",
-            color: "#EFE393",
-            textShadow: "0px 0px 1px rgba(255, 255, 150, 0.5)",
-          }}
-        >
-          (c) IVAN ORLOV
-        </Typography>
+          <Typography
+            variant="body1"
+            fontSize={18}
+            mt={3}
+            sx={{ whiteSpace: "pre-line" }}
+          >
+            Премиальный бренд аксессуаров "ORLOV" создаст для Вас уникальный
+            образ. Авторский вид и эксклюзивный дизайн подчеркнут статус
+            обладателя. Наш онлайн-бутик представляет ассортимент для настоящих
+            чемпионов по жизни!
+            {"\n\n"}
+            <span style={{ fontStyle: "italic", fontSize: "1.1rem" }}>
+              "Лучшее для Лучших" <br />
+            </span>
+            <span style={{ fontStyle: "italic", fontSize: "1.1rem" }}>
+              (c) IVAN ORLOV
+            </span>
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );
