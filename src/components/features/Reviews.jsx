@@ -111,9 +111,8 @@ const ReviewsWall = () => {
     setIsVK(isVKWebView());
   }, []);
 
-  // Добавление нового отзыва в локальный список
+  // Добавление нового отзыва в начало локального списка
   const handleAddReview = () => {
-    // Проверяем, чтобы поля не были пустыми
     if (!newReviewName.trim() || !newReviewText.trim()) return;
 
     const newReview = {
@@ -121,10 +120,10 @@ const ReviewsWall = () => {
       text: newReviewText,
       rating: newReviewRating,
       avatar: "", // Можно задать свой дефолтный аватар
-      company: "", // Или сделать поле в форме, если нужно
+      company: "",
     };
 
-    setReviewList([...reviewList, newReview]);
+    setReviewList([newReview, ...reviewList]); // Добавляем новый отзыв в начало списка
 
     // Сбрасываем поля формы
     setNewReviewName("");
@@ -137,70 +136,76 @@ const ReviewsWall = () => {
       sx={{
         backgroundColor: "#181818",
         p: { xs: 2, sm: 4, md: 5 },
-        mt: { xs: 2, sm: 0 }, // Дополнительный отступ сверху для мобильных
+        mt: { xs: 2, sm: 0 },
         minHeight: "100vh",
-        overflow: isVK ? "auto" : "visible", // Решение проблемы скролла во VK WebView
-        display: isVK ? "flex" : "block",
-        flexDirection: "column",
+        overflow: isVK ? "auto" : "visible",
       }}
     >
-      {/* Toolbar для отступа под фиксированным Navbar (если есть) */}
       <Toolbar />
 
-      {/* Сетка отзывов */}
-      <Grid container spacing={3}>
-        {reviewList.map((review, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <ReviewCard review={review} index={index} />
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* Форма для добавления нового отзыва */}
-      <Box sx={{ mt: 4 }}>
-        <Typography variant="h6" color="white" gutterBottom>
-          Оставить отзыв
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            maxWidth: "400px",
-          }}
-        >
-          <TextField
-            variant="filled"
-            label="Ваше имя"
-            value={newReviewName}
-            onChange={(e) => setNewReviewName(e.target.value)}
-            InputProps={{ style: { color: "white" } }}
-            InputLabelProps={{ style: { color: "white" } }}
-          />
-          <TextField
-            variant="filled"
-            label="Ваш отзыв"
-            value={newReviewText}
-            onChange={(e) => setNewReviewText(e.target.value)}
-            multiline
-            rows={3}
-            InputProps={{ style: { color: "white" } }}
-            InputLabelProps={{ style: { color: "white" } }}
-          />
-          <Rating
-            name="new-review-rating"
-            value={newReviewRating}
-            onChange={(event, newValue) => {
-              setNewReviewRating(newValue);
-            }}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          gap: 4,
+        }}
+      >
+        {/* Форма для добавления отзыва слева */}
+        <Box sx={{ width: { xs: "100%", md: "300px" } }}>
+          <Typography variant="h6" color="white" gutterBottom>
+            Оставить отзыв
+          </Typography>
+          <Box
             sx={{
-              "& .MuiRating-iconFilled": { color: "#EFE393" },
-              fontSize: { xs: "1.5rem", md: "2rem" },
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
             }}
-          />
-          <Button variant="contained" onClick={handleAddReview}>
-            Добавить
-          </Button>
+          >
+            <TextField
+              variant="filled"
+              label="Ваше имя"
+              value={newReviewName}
+              onChange={(e) => setNewReviewName(e.target.value)}
+              InputProps={{ style: { color: "white" } }}
+              InputLabelProps={{ style: { color: "white" } }}
+            />
+            <TextField
+              variant="filled"
+              label="Ваш отзыв"
+              value={newReviewText}
+              onChange={(e) => setNewReviewText(e.target.value)}
+              multiline
+              rows={3}
+              InputProps={{ style: { color: "white" } }}
+              InputLabelProps={{ style: { color: "white" } }}
+            />
+            <Rating
+              name="new-review-rating"
+              value={newReviewRating}
+              onChange={(event, newValue) => {
+                setNewReviewRating(newValue);
+              }}
+              sx={{
+                "& .MuiRating-iconFilled": { color: "#EFE393" },
+                fontSize: { xs: "1.5rem", md: "2rem" },
+              }}
+            />
+            <Button variant="contained" onClick={handleAddReview}>
+              Добавить
+            </Button>
+          </Box>
+        </Box>
+
+        {/* Сетка отзывов справа */}
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={3}>
+            {reviewList.map((review, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <ReviewCard review={review} index={index} />
+              </Grid>
+            ))}
+          </Grid>
         </Box>
       </Box>
     </Box>

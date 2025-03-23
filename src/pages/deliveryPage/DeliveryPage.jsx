@@ -1,8 +1,8 @@
 import React from "react";
-import { DeliveryPage } from "../../components/sections";
+import { DeliveryMap } from "../../components/deliveryMap";
 
 const Delivery = () => {
-  return <DeliveryPage />;
+  return <DeliveryMap />;
 };
 
 export default Delivery;

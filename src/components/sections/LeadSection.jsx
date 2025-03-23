@@ -12,7 +12,7 @@ import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
 import aboutUsImage from "../../assets/leadSection/about-us-image.webp";
-import contactsImage from "../../assets/leadSection/contacts-image.webp";
+import contactsImage from "../../assets/leadSection/contacts1.jpg";
 import deliveryImage from "../../assets/leadSection/delivery-image.webp";
 
 const containerVariants = {

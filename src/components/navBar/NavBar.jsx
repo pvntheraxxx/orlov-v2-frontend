@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -27,6 +27,10 @@ const NavBar = () => {
   const { isXs, isSm, isLgSm, isMd, isLg } = useResponsive();
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Получаем данные корзины из контекста
+  const { cartItems } = useContext(CartContext);
+  const cartCount = cartItems ? cartItems.length : 0;
 
   const [openLogin, setOpenLogin] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -229,8 +233,13 @@ const NavBar = () => {
                 <FaSearchDollar size={20} />
               </IconButton>
 
-              {/* Пример корзины с Badge (0 товаров) с переходом на страницу корзины */}
-              <Badge badgeContent={0} color="error" overlap="circular">
+              {/* Корзина с динамическим бейджем */}
+              <Badge
+                badgeContent={cartCount}
+                color="error"
+                overlap="circular"
+                invisible={cartCount === 0}
+              >
                 <IconButton
                   color="inherit"
                   sx={{ padding: "6px" }}
