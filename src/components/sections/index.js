@@ -1,2 +1,4 @@
 export { default as TeaserCard } from "./teaserCard";
-export { AboutPage, ContactsPage, DeliveryPage } from "./LeadSection";
+export { default as AboutUsSection } from "./AboutUsSection";
+export { default as ContactsSection } from "./ContactsSection";
+export { default as DeliverySection } from "./DeliverySection";

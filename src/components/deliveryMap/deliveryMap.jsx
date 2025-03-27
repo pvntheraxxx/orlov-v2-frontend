@@ -179,10 +179,12 @@ export default function RussiaMap() {
 
   return (
     <Box
+      id="deliveryMap"
       ref={containerRef}
       sx={{
-        marginTop: { xs: "20px", md: "90px" },
-        marginBottom: 0,
+        // marginTop: { xs: "20px", md: "90px" },
+
+        marginBottom: 5,
         width: "100%",
         height: { xs: "calc(100vh - 20px)", md: "calc(100vh - 90px)" },
         overflow: { xs: "auto", md: "hidden" },
@@ -225,15 +227,19 @@ export default function RussiaMap() {
         {!isMobile && hoveredZone && (
           <Paper
             sx={{
-              position: "absolute",
-              bottom: 20,
-              left: 20,
+              position: "fixed", // Фиксируем форму в левом верхнем углу
+              top: "90px", // Позиция под NavBar
+              left: "20px", // Отступ слева
               px: 3,
               py: 2,
               backgroundColor: "#1e1e1e",
               border: "2px solid #EFE393",
               color: "#fff",
               maxWidth: 400,
+              width: "auto",
+              zIndex: 10, // Убедимся, что форма не перекрывает карту
+              pointerEvents: "none", // Отключаем взаимодействие с мышью
+              opacity: 0.9, // Сделаем форму немного прозрачной
             }}
           >
             <Typography variant="h6">{hoveredZone}</Typography>

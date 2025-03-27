@@ -11,43 +11,53 @@ import { motion } from "framer-motion";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
-import aboutUsImage from "../../assets/leadSection/about-us-image.webp";
-import contactsImage from "../../assets/leadSection/contacts1.jpg";
-import deliveryImage from "../../assets/leadSection/delivery-image.webp";
-
-const containerVariants = {
+export const containerVariants = {
   hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.25 },
-  },
+  visible: { transition: { staggerChildren: 0.25 } },
 };
 
-const itemVariants = {
+export const itemVariants = {
   hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-const HeroSection = ({
+const LeadSection = ({
   title,
   description,
   buttonText,
   buttonLink,
   imagePosition,
   imageUrl,
+  imageStyles = {}, // Новый пропс для стилей изображения
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate(buttonLink);
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "instant" });
-    }, 0);
+    // Проверяем, указывает ли buttonLink на якорь (начинается с #)
+    if (buttonLink.startsWith("#")) {
+      const targetId = buttonLink.substring(1); // убираем '#'
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        // Допустим, высота вашей шапки 80px
+        const navBarHeight = 80;
+        // Текущее положение элемента
+        const elementPosition =
+          targetElement.getBoundingClientRect().top + window.pageYOffset;
+        // Вычитаем высоту шапки, чтобы карта была ровно под NavBar
+        const offsetPosition = elementPosition - navBarHeight;
+
+        // Мгновенно перемещаемся к нужной позиции
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "auto", // без плавной анимации
+        });
+      }
+    } else {
+      // Иначе, если это не якорь, переходим по маршруту
+      navigate(buttonLink);
+    }
   };
 
   return (
@@ -73,14 +83,15 @@ const HeroSection = ({
               <Box
                 component="img"
                 src={imageUrl}
-                alt="Hero Section Image"
+                alt="Lead Section Image"
                 sx={{
                   width: "100%",
                   height: "auto",
                   maxHeight: "500px",
+                  objectFit: "cover",
                   borderRadius: 3,
                   boxShadow: 3,
-                  objectFit: "cover",
+                  ...imageStyles,
                 }}
               />
             </Grid>
@@ -126,14 +137,15 @@ const HeroSection = ({
               <Box
                 component="img"
                 src={imageUrl}
-                alt="Hero Section Image"
+                alt="Lead Section Image"
                 sx={{
                   width: "100%",
                   height: "auto",
                   maxHeight: "500px",
+                  objectFit: "cover",
                   borderRadius: 3,
                   boxShadow: 3,
-                  objectFit: "cover",
+                  ...imageStyles,
                 }}
               />
             </Grid>
@@ -144,43 +156,4 @@ const HeroSection = ({
   );
 };
 
-const AboutPage = () => (
-  <motion.div initial="hidden" animate="visible" variants={containerVariants}>
-    <HeroSection
-      title="MADE IN RUSSIA"
-      description="В компании ORLOV мы создаем не просто аксессуары - мы создаем символы СТАТУСА, эксклюзивности и индивидуальности. Наша визитная карточка это премиальное обслуживание, где МЫ находим подход к каждому клиенту. Мы тщательно отбираем материалы, гарантируя долговечность и совершенство каждой детали. Наши изделия подчеркивают Ваш СТИЛЬ, дополняя его роскошью и уникальностью."
-      buttonText="Перейти в каталог"
-      buttonLink="/catalog"
-      imagePosition="left"
-      imageUrl={aboutUsImage}
-    />
-  </motion.div>
-);
-
-const ContactsPage = () => (
-  <motion.div initial="hidden" animate="visible" variants={containerVariants}>
-    <HeroSection
-      title="СВЯЖИТЕСЬ С НАМИ"
-      description="Наша команда всегда готова помочь Вам 24/7. Если у Вас есть вопросы о продукции, заказах или сотрудничестве - свяжитесь С НАМИ любым удобным способом! Мы гарантируем оперативность и внимательное отношение к деталям. Мы ЦЕНИМ доверие клиентов к нашей компании и предлагаем форматы общения для достижения совместного результата."
-      buttonText="Связаться"
-      buttonLink="/contacts"
-      imagePosition="left"
-      imageUrl={contactsImage}
-    />
-  </motion.div>
-);
-
-const DeliveryPage = () => (
-  <motion.div initial="hidden" animate="visible" variants={containerVariants}>
-    <HeroSection
-      title="ДОСТАВКА ПО МИРУ"
-      description="Мы обеспечиваем быструю и надежную доставку по России и МИРУ. Наши товары тщательно упаковываются, чтобы гарантировать их сохранность. Выберите любой способ доставки из предложенных вариантов. Если у Вас возникли вопросы по логистике, мы предложим удобные решения в кратчайшие сроки. Мы предлагаем подробное отслеживание и прозрачную консультационную поддержку по товарам."
-      buttonText="Подробнее"
-      buttonLink="/delivery"
-      imagePosition="right"
-      imageUrl={deliveryImage}
-    />
-  </motion.div>
-);
-
-export { AboutPage, ContactsPage, DeliveryPage };
+export default LeadSection;
