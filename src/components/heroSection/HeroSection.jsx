@@ -1,45 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useResponsive } from "../../hooks/useResponsive";
-import Logo from "../../assets/heroSection/Logo2.svg?react";
+import Logo from "../../assets/heroSection/Logo3.svg?react";
 import backgroundImage from "../../assets/heroSection/background4.webp";
-import { useMediaQuery } from "@mui/material";
+import { NAVBAR_HEIGHT } from "../../constants/layout";
 
 const HeroSection = () => {
   const { isSm, isMd, isLg } = useResponsive();
-  const [viewportHeight, setViewportHeight] = useState("100vh");
-  const isMobile = useMediaQuery("(max-width: 768px)");
 
-  useEffect(() => {
-    const updateHeight = () => {
-      const bottomNavHeight = isSm ? 60 : 0;
-      const availableHeight = window.innerHeight - bottomNavHeight;
-      setViewportHeight(`${availableHeight}px`);
-    };
+  // Условие для «средних» устройств (iPad Pro, Surface и т.д.)
+  // По умолчанию в Material UI:
+  // sm ~ до 600px, md ~ 600-900px, lg ~ 900-1200px, xl ~ 1200-1536px
+  // Но если у вас переопределены брейкпоинты, подстройте это условие под реальные цифры.
+  const isMiddleDevice = isMd || isLg; // Планшеты и часть ноутбуков
 
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-
-    return () => {
-      window.removeEventListener("resize", updateHeight);
-    };
-  }, [isSm]);
-
+  // Размер логотипа (не меняем, либо при желании чуть корректируем)
   const logoSize = isSm
-    ? { width: "70%", maxHeight: "35vh" }
+    ? { width: "80%", maxHeight: "45vh" }
     : isMd
-    ? { width: "60%", maxHeight: "40vh" }
+    ? { width: "65%", maxHeight: "50vh" }
     : isLg
-    ? { width: "50%", maxHeight: "50vh" }
-    : { width: "45%", maxHeight: "60vh" };
+    ? { width: "30%", maxHeight: "60vh" }
+    : { width: "30%", maxHeight: "65vh" };
 
   return (
     <Box
       display="flex"
       flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
       width="100%"
       position="relative"
       zIndex={10}
@@ -50,8 +38,10 @@ const HeroSection = () => {
         backgroundPosition: "center",
         overflow: "hidden",
         flexShrink: 0,
-        height: isMobile ? "100vh" : viewportHeight, // Растягиваем на всю высоту на мобильных
-        minHeight: "100vh", // Минимальная высота 100vh, чтобы избежать проблем на iOS
+        // Верхний отступ под Navbar
+        pt: `${NAVBAR_HEIGHT}px`,
+        // Минимальная высота
+        minHeight: "100vh",
         "&::before": {
           content: '""',
           position: "absolute",
@@ -65,40 +55,57 @@ const HeroSection = () => {
         },
       }}
     >
-      <Logo
-        style={{
-          width: logoSize.width,
-          height: "auto",
-          maxHeight: logoSize.maxHeight,
-          margin: "0 auto",
-          zIndex: 2,
-          filter: "drop-shadow(0px 4px 6px rgba(0,0,0,0.5))",
-        }}
-      />
-
       <Box
-        textAlign="center"
-        py={isMobile ? 3 : 5}
-        px={isMobile ? 2 : 4}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        flexGrow={1}
+        zIndex={2}
+        // Базовый вертикальный отступ 4
+        py={4}
+        // Управляем выравниванием в зависимости от брейкпоинтов:
+        // - На мобильных (sm) центрируем
+        // - На планшетах и ноутбуках (md, lg) тоже центрируем, чтобы убрать лишний разрыв
+        // - На больших десктопах (xl) оставляем как было ("space-between")
+        justifyContent={
+          isSm ? "center" : isMiddleDevice ? "center" : "space-between"
+        }
         sx={{
-          zIndex: 2,
-          borderRadius: isMobile ? 2 : 4,
+          // На мобильных пусть остаётся вертикальная прокрутка при нехватке места + нижний отступ
+          ...(isSm && {
+            overflowY: "auto",
+            pb: 7,
+          }),
         }}
       >
-        <Typography
-          variant={isMobile ? "h5" : "h4"}
-          fontWeight="bold"
-          gutterBottom
-        >
-          СТИЛЬ и РАНГ — это ГЛАВНЫЕ детали для ЛИДЕРА в глобальном МИРЕ!
-        </Typography>
-
-        <Box
-          sx={{
-            maxWidth: isMobile ? "100%" : 900,
-            mx: "auto",
+        {/* Логотип */}
+        <Logo
+          style={{
+            width: logoSize.width,
+            height: "auto",
+            maxHeight: logoSize.maxHeight,
+            margin: "0 auto",
+            filter: "drop-shadow(0px 4px 6px rgba(0,0,0,0.5))",
+            // Чуть уменьшим отступ у «средних» устройств,
+            // чтобы текст был ближе к логотипу
+            marginBottom: isMiddleDevice ? "20px" : isSm ? "24px" : 0,
           }}
+        />
+
+        {/* Текст */}
+        <Box
+          textAlign="center"
+          px={isSm || isMd ? 2 : 4}
+          maxWidth={isSm || isMd ? "100%" : 900}
         >
+          <Typography
+            variant={isSm || isMd ? "h5" : "h4"}
+            fontWeight="bold"
+            gutterBottom
+          >
+            СТИЛЬ и РАНГ — это ГЛАВНЫЕ детали для ЛИДЕРА в глобальном МИРЕ!
+          </Typography>
+
           <Typography
             variant="body1"
             fontSize={18}

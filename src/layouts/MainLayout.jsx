@@ -5,7 +5,8 @@ import { NavBar } from "../components/navBar";
 import { Footer } from "../components/footer";
 import { MobileBottomNav } from "../components/mobileMenu";
 import { useResponsive } from "../hooks/useResponsive";
-import { SupportButton, ScrollToTopButton } from "../components/ui";
+import { ScrollToTopButton } from "../components/ui";
+import { SupportButton } from "../components/ui";
 
 const MOBILE_NAV_HEIGHT = 64;
 

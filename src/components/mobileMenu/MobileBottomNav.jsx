@@ -79,6 +79,7 @@ const MobileBottomNav = () => {
 
   return (
     <Paper
+      id="orlov-bottom-menu"
       className="bottom-nav"
       sx={{
         position: "fixed",

@@ -100,7 +100,7 @@ const Footer = () => {
               <IconButton
                 color="inherit"
                 component="a"
-                href="https://vk.com"
+                href="https://vk.com/orlov_brand777"
                 target="_blank"
               >
                 <FaVk size="24px" />
@@ -108,23 +108,23 @@ const Footer = () => {
               <IconButton
                 color="inherit"
                 component="a"
-                href="https://t.me"
+                href="https://t.me/ORLOV_brand777"
                 target="_blank"
               >
                 <FaTelegramPlane size="24px" />
               </IconButton>
-              <IconButton
+              {/* <IconButton
                 color="inherit"
                 component="a"
                 href="https://yandex.ru"
                 target="_blank"
               >
                 <FaYandex size="24px" />
-              </IconButton>
+              </IconButton> */}
               <IconButton
                 color="inherit"
                 component="a"
-                href="https://wa.me"
+                href="https://wa.me/89210428777"
                 target="_blank"
               >
                 <FaWhatsapp size="24px" />

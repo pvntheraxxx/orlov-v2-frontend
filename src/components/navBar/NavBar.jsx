@@ -9,11 +9,12 @@ import ReceiptLong from "@mui/icons-material/ReceiptLong";
 import Badge from "@mui/material/Badge";
 import { FaSearchDollar, FaUserTie, FaShoppingCart } from "react-icons/fa";
 import { useResponsive } from "../../hooks/useResponsive";
-import LoginForm from "../ui/LoginForm"; // Используем форму входа
+import LoginForm from "../ui/LoginForm";
 import SearchMenu from "../ui/SearchMenu";
 import { CartContext } from "../../contexts/CartContext";
+import Brand from "../../assets/navBar/brand.svg?react";
 
-// Дополнительные импорты для модальных окон и уведомлений
+// Модальные окна и уведомления
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -28,18 +29,15 @@ const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Получаем данные корзины из контекста
   const { cartItems } = useContext(CartContext);
   const cartCount = cartItems ? cartItems.length : 0;
 
   const [openLogin, setOpenLogin] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
-  // Состояния авторизации
   const [user, setUser] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
   const [loginSuccessOpen, setLoginSuccessOpen] = useState(false);
-  // Состояние для видимости бейджа (восклицательного знака)
   const [badgeVisible, setBadgeVisible] = useState(false);
 
   useEffect(() => {
@@ -61,10 +59,8 @@ const NavBar = () => {
     }
   };
 
-  // Если пользователь авторизован, открываем окно профиля, иначе форму входа
   const handleUserClick = () => {
     if (user) {
-      // Скрываем бейдж после клика
       setBadgeVisible(false);
       setOpenProfile(true);
     } else {
@@ -76,7 +72,6 @@ const NavBar = () => {
     setOpenLogin(false);
   };
 
-  // Функция выхода из аккаунта
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem("token");
@@ -117,7 +112,7 @@ const NavBar = () => {
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
-          Orlov Luxury Collections | +7 (901) 123-45-67
+          Orlov Luxury Collections | +7 (911) 332 29-17
           <ReceiptLong sx={{ fontSize: "1rem", ml: 1 }} />
         </Box>
 
@@ -136,10 +131,10 @@ const NavBar = () => {
               0 12px 24px rgba(0, 0, 0, 0.4)
             `,
             padding: "0px 24px",
-            height: isMobile ? "44px" : isTablet ? "auto" : "52px",
+            // Высота самого AppBar
+            height: isMobile ? "44px" : "52px",
             display: "flex",
             justifyContent: "center",
-            py: isTablet ? 1 : 0,
           }}
         >
           <Toolbar
@@ -152,16 +147,24 @@ const NavBar = () => {
               gap: isTablet ? 1 : 3,
             }}
           >
-            {/* Логотип/название */}
+            {/* Логотип/Brand */}
             <Box
               sx={{
+                display: "flex",
+                alignItems: "center",
+                height: "100%",
                 cursor: "pointer",
-                fontWeight: "bold",
-                fontSize: "1.4rem",
-                color: "primary.main",
               }}
+              onClick={() => handleMenuClick("/")}
             >
-              ORLOV
+              {/* Ставим фиксированную высоту (24px), чтобы Brand был сопоставим с иконками ~20px */}
+              <Brand
+                style={{
+                  height: "40px",
+                  width: "auto",
+                  paddingBottom: "4px",
+                }}
+              />
             </Box>
 
             {/* Горизонтальное меню (для десктопа) */}
@@ -249,7 +252,7 @@ const NavBar = () => {
                 </IconButton>
               </Badge>
 
-              {/* Иконка профиля с бейджем, который исчезает после клика */}
+              {/* Иконка профиля с бейджем */}
               {user ? (
                 badgeVisible ? (
                   <Badge
@@ -289,7 +292,7 @@ const NavBar = () => {
         </AppBar>
       </Box>
 
-      {/* Поисковое меню для десктопа */}
+      {/* Поисковое меню */}
       <SearchMenu open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* Модальное окно с формой входа */}
@@ -298,7 +301,7 @@ const NavBar = () => {
         onClose={handleCloseLogin}
         setUser={(userData) => {
           setUser(userData);
-          setBadgeVisible(true); // Показываем бейдж после входа
+          setBadgeVisible(true);
           setLoginSuccessOpen(true);
         }}
       />
@@ -332,7 +335,7 @@ const NavBar = () => {
 
 export default NavBar;
 
-// Компонент ProfileModal для отображения профиля с кнопкой выхода
+// Компонент ProfileModal
 const ProfileModal = ({ open, onClose, user, handleLogout }) => {
   return (
     <Dialog

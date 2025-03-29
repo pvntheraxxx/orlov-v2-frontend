@@ -122,7 +122,7 @@ const theme = createTheme({
         body: {
           cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
         },
-        "a, button": {
+        "a, button, span": {
           cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
         },
       },

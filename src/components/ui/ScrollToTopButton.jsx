@@ -7,7 +7,7 @@ const ScrollToTopButton = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsVisible(window.scrollY > 100); // Показываем кнопку после прокрутки вниз на 100px
+      setIsVisible(window.scrollY > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -26,7 +26,10 @@ const ScrollToTopButton = () => {
         color="primary"
         sx={{
           position: "fixed",
-          bottom: { xs: 80, md: 20 },
+          bottom: {
+            xs: 80, // мобильная версия
+            md: 70, // десктоп — точно на уровне Tiledesk marginY
+          },
           left: 20,
           zIndex: 1000,
           width: { xs: 40, md: 56 },
