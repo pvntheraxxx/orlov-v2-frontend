@@ -12,7 +12,7 @@ import { useResponsive } from "../../hooks/useResponsive";
 import LoginForm from "../ui/LoginForm";
 import SearchMenu from "../ui/SearchMenu";
 import { CartContext } from "../../contexts/CartContext";
-import Brand from "../../assets/navBar/brand.svg?react";
+import Brand from "../../assets/navBar/brand1.svg?react";
 
 // Модальные окна и уведомления
 import Dialog from "@mui/material/Dialog";
@@ -157,14 +157,24 @@ const NavBar = () => {
               }}
               onClick={() => handleMenuClick("/")}
             >
-              {/* Ставим фиксированную высоту (24px), чтобы Brand был сопоставим с иконками ~20px */}
-              <Brand
-                style={{
-                  height: "40px",
-                  width: "auto",
-                  paddingBottom: "4px",
-                }}
-              />
+              <a>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: {
+                      xs: "24px", // на мобильных
+                      sm: "28px",
+                      md: "32px",
+                    },
+                    // fontWeight: 600,
+                    letterSpacing: "1px",
+                    color: "#EFE393", // основной брендовый цвет
+                    fontFamily: "Cinzel, serif", // или выбранный тобой luxury-шрифт
+                  }}
+                >
+                  ORLOV
+                </Typography>
+              </a>
             </Box>
 
             {/* Горизонтальное меню (для десктопа) */}

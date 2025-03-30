@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useResponsive } from "../../hooks/useResponsive";
 import Logo from "../../assets/heroSection/Logo3.svg?react";
-import backgroundImage from "../../assets/heroSection/background4.webp";
+import backgroundImage from "../../assets/heroSection/background1.png";
 import { NAVBAR_HEIGHT } from "../../constants/layout";
 
 const HeroSection = () => {
@@ -50,7 +50,7 @@ const HeroSection = () => {
           width: "100%",
           height: "100%",
           background:
-            "linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.35))",
+            "linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))",
           zIndex: 2,
         },
       }}

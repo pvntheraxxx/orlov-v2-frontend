@@ -7,7 +7,7 @@ const ScrollToTopButton = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsVisible(window.scrollY > 100);
+      setIsVisible(window.scrollY > 100); // Показываем кнопку после прокрутки вниз на 100px
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -15,9 +15,7 @@ const ScrollToTopButton = () => {
   }, []);
 
   const scrollToTop = () => {
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, behavior: "instant" });
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -26,11 +24,8 @@ const ScrollToTopButton = () => {
         color="primary"
         sx={{
           position: "fixed",
-          bottom: {
-            xs: 80, // мобильная версия
-            md: 70, // десктоп — точно на уровне Tiledesk marginY
-          },
-          left: 20,
+          bottom: { xs: 80, md: 20 }, // Совпадает с SupportButton          bottom: { xs: 80, md: 20 }, // Совпадает с SupportButton
+          left: 20, // Симметрично SupportButton          left: 20, // Симметрично SupportButton
           zIndex: 1000,
           width: { xs: 40, md: 56 },
           height: { xs: 40, md: 56 },

@@ -13,6 +13,7 @@ import { useResponsive } from "../../hooks/useResponsive";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Brand from "../../assets/navBar/brand.svg?react";
 
 const SearchMenu = ({ open, onClose }) => {
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState("");
@@ -135,17 +136,24 @@ const SearchMenu = ({ open, onClose }) => {
             alignItems: "center",
           }}
         >
-          <Typography
-            sx={{
-              fontWeight: "bold",
-              fontSize: isMobile ? "1.2rem" : "1.4rem",
-              color: "#EFE393",
-              cursor: "pointer",
-            }}
-            onClick={handleClose}
-          >
-            ORLOV
-          </Typography>
+          <a>
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: {
+                  xs: "24px", // на мобильных
+                  sm: "28px",
+                  md: "32px",
+                },
+                // fontWeight: 600,
+                letterSpacing: "1px",
+                color: "#EFE393", // основной брендовый цвет
+                fontFamily: "Cinzel, serif", // или выбранный тобой luxury-шрифт
+              }}
+            >
+              ORLOV
+            </Typography>
+          </a>
           <IconButton sx={{ color: "#EFE393" }} onClick={handleClose}>
             <CloseIcon />
           </IconButton>
