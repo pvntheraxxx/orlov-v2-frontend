@@ -1,112 +1,116 @@
-import createTheme from "@mui/material/styles/createTheme";
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#EFE393", // Мягкое лимонное золото
+      main: "#EFE393",
+      contrastText: "#1a1a1a",
     },
     secondary: {
       main: "#2C2C2C", // Глубокий тёмно-серый
     },
     background: {
-      default: "#181818", // Чистый тёмный фон
-      paper: "#222222", // Карточки и элементы
+      default: "#181818", // Основной фон
+      paper: "#222222",   // Бумажные карточки
     },
     text: {
-      primary: "#EFE393", // Главный текст теперь мягкое золото
-      secondary: "#CCCCCC", // Дополнительный текст — мягкий серый
+      primary: "#EFE393",     // Основной текст
+      secondary: "#CCCCCC",   // Второстепенный текст
+    },
+    // === ДОБАВЛЕННЫЕ корпоративные цвета ===
+    corporate: {
+      success: "#A2E3C4",     // Мятный успех
+      error: "#FFB3B3",       // Мягкий коралловый
+      info: "#9ECFFF",        // Небесный голубой
+      warning: "#FCE38A",     // Мягкий жёлтый
+      surface: "#3A3A3A",     // Нейтральный фон
     },
   },
   typography: {
     fontFamily: "'Inter', sans-serif",
-    h1: {
-      fontSize: "3rem",
-      fontWeight: 700,
-      color: "#EFE393",
-      "@media (max-width:600px)": {
-        fontSize: "2rem",
-      },
-    },
-    h2: {
-      fontSize: "2.5rem",
-      fontWeight: 600,
-      color: "#EFE393",
-      "@media (max-width:600px)": {
-        fontSize: "1.75rem",
-      },
-    },
-    h5: {
-      fontSize: "1.5rem",
-      fontWeight: 400,
-      color: "#EFE393",
-      "@media (max-width:600px)": {
-        fontSize: "1.2rem",
-      },
-    },
-    h6: {
-      fontSize: "1.5rem",
-      fontWeight: 400,
-      color: "#EFE393",
-      "@media (max-width:600px)": {
-        fontSize: "1rem",
-      },
-    },
-    body1: {
-      fontSize: "1rem",
-      color: "#EFE393",
-      "@media (max-width:600px)": {
-        fontSize: "0.875rem",
-      },
-    },
-    body2: {
-      fontSize: "1rem",
-      color: "#CCCCCC",
-      "@media (max-width:600px)": {
-        fontSize: "0.875rem",
-      },
-    },
+    h1: { fontSize: "3rem", fontWeight: 700, color: "#EFE393" },
+    h2: { fontSize: "2.5rem", fontWeight: 600, color: "#EFE393" },
+    h5: { fontSize: "1.5rem", fontWeight: 400, color: "#EFE393" },
+    h6: { fontSize: "1.5rem", fontWeight: 400, color: "#EFE393" },
+    body1: { fontSize: "1rem", color: "#EFE393" },
+    body2: { fontSize: "1rem", color: "#CCCCCC" },
   },
   components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#222222",
+          color: "#EFE393",
+        },
+      },
+    },
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          color: "#EFE393",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#2C2C2C",
+          borderRadius: 8,
+          "& .MuiInputBase-root": {
+            color: "#EFE393",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#EFE393",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#D8D080",
+          },
+        },
+      },
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        root: {
+          color: "#EFE393",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
           textTransform: "none",
           borderRadius: "10px",
-          color: "#181818", // Контрастный тёмный текст на кнопках
+          color: "#181818",
           backgroundColor: "#EFE393",
           "&:hover": {
-            backgroundColor: "#D8D080", // Немного затемняем при наведении
+            backgroundColor: "#D8D080",
           },
         },
       },
     },
     MuiCssBaseline: {
       styleOverrides: {
-        // Глобальный CSS Reset и настройки для кроссбраузерности
         "*": {
           boxSizing: "border-box",
-          scrollbarWidth: "thin", // Firefox
-          scrollbarColor: "#EFE393 #2C2C2C", // (ползунок, дорожка) для Firefox
+          scrollbarWidth: "thin",
+          scrollbarColor: "#EFE393 #2C2C2C",
         },
         "html, body": {
           margin: 0,
           padding: 0,
           width: "100%",
           height: "100%",
-          WebkitTextSizeAdjust: "100%",
-          msTextSizeAdjust: "100%",
-          scrollBehavior: "smooth", // Плавная прокрутка
+          scrollBehavior: "smooth",
+          backgroundColor: "#181818",
         },
         body: {
-          backgroundColor: "#181818",
-          minHeight: "100vh", // Фолбэк, если 100dvh не поддерживается
           WebkitFontSmoothing: "antialiased",
           MozOsxFontSmoothing: "grayscale",
+          cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
         },
-        // Стиль для скроллбара в WebKit-браузерах (Chrome, Safari, Edge)
-        "::-webkit-scrollbar": {
-          // width: "12px",
+        "a, button, span": {
+          cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
         },
         "::-webkit-scrollbar-track": {
           background: "#2C2C2C",
@@ -117,13 +121,6 @@ const theme = createTheme({
         },
         "::-webkit-scrollbar-thumb:hover": {
           backgroundColor: "#D8D080",
-        },
-        
-        body: {
-          cursor: "url('/assets/cursor/cursor.png') 10 10, auto !important",
-        },
-        "a, button, span": {
-          cursor: "url('/assets/cursor/cursor-pointer.png') 10 10, pointer !important",
         },
       },
     },

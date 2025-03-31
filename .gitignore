@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Все JSON-ключи YandexGPT
+src/components/bot/*.json

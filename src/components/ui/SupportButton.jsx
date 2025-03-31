@@ -8,9 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import RoomService from "@mui/icons-material/RoomService";
 import Close from "@mui/icons-material/Close";
+import ChatBot from "../../components/bot/"; // Убедись в корректности импорта
 
 const SupportButton = () => {
   const [open, setOpen] = useState(false);
+  const [chatBotVisible, setChatBotVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -21,22 +23,25 @@ const SupportButton = () => {
     setOpen(false);
   };
 
-  // При клике на "Бот" закрываем модальное окно и переходим на страницу чат-бота
   const handleBotClick = () => {
-    setOpen(false);
-    navigate("/chatbot");
+    setOpen(false); // Закрываем модальное окно
+    setChatBotVisible(true); // Показываем чат-бот
   };
 
-  // Функция для отслеживания заказа
   const handleOrderTracking = () => {
     setOpen(false);
+    setChatBotVisible(false);
     navigate("/delivery");
   };
 
-  // Функция для обработки нажатия кнопки "Оставить заявку"
   const handleLeaveRequest = () => {
     setOpen(false);
+    setChatBotVisible(false);
     navigate("/contacts");
+  };
+
+  const handleCloseChatBot = () => {
+    setChatBotVisible(false);
   };
 
   return (
@@ -60,6 +65,7 @@ const SupportButton = () => {
         <RoomService sx={{ fontSize: { xs: 28, md: 32 } }} />
       </Fab>
 
+      {/* Главное модальное меню */}
       <Modal open={open} onClose={handleClose} disableAutoFocus>
         <Box
           sx={{
@@ -122,6 +128,9 @@ const SupportButton = () => {
           </Box>
         </Box>
       </Modal>
+
+      {/* Просто рендерим ChatBot без Modal, если активен */}
+      {chatBotVisible && <ChatBot onClose={handleCloseChatBot} />}
     </>
   );
 };

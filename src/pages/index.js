@@ -1,4 +1,3 @@
-export { default as ChatBotPage } from "./chatBotPage/ChatBotPage";
 export { default as HomePage } from "./home/HomePage";  
 export { default as AboutUsPage } from "./aboutUsPage/AboutUsPage";  
 export { default as CatalogPage } from "./catalogPage/CatalogPage";

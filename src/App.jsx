@@ -12,7 +12,6 @@ import {
   ContactsPage,
   ReviewsPage,
   NotFoundPage,
-  ChatBotPage,
 } from "./pages";
 import { CartProvider } from "./contexts/CartContext.jsx";
 // import { LoadingScreen } from "./components/LoadingScreen"; // Подключаем компонент
@@ -53,7 +52,7 @@ const App = () => {
 
                 <Route path="*" element={<NotFoundPage />} />
               </Route>
-              <Route path="/chatbot" element={<ChatBotPage />} />
+              {/* <Route path="/chatbot" element={<ChatBotPage />} /> */}
             </Routes>
           </Suspense>
         </BrowserRouter>
