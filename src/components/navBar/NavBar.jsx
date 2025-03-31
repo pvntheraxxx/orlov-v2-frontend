@@ -9,10 +9,9 @@ import ReceiptLong from "@mui/icons-material/ReceiptLong";
 import Badge from "@mui/material/Badge";
 import { FaSearchDollar, FaUserTie, FaShoppingCart } from "react-icons/fa";
 import { useResponsive } from "../../hooks/useResponsive";
-import LoginForm from "../ui/LoginForm";
-import SearchMenu from "../ui/SearchMenu";
+import { LoginForm, SearchMenu } from "../ui";
+
 import { CartContext } from "../../contexts/CartContext";
-import Brand from "../../assets/navBar/brand1.svg?react";
 
 // Модальные окна и уведомления
 import Dialog from "@mui/material/Dialog";

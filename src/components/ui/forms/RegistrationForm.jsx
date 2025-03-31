@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import { FaVk, FaYandex } from "react-icons/fa";
-import { API_BASE_URL } from "../../config";
+import { API_BASE_URL } from "../../../config";
 
 const RegistrationForm = ({ open, onClose }) => {
   // Состояния для полей формы

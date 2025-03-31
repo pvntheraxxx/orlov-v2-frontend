@@ -7,47 +7,63 @@ import {
   Button,
   List,
   ListItem,
-  ListItemText,
   IconButton,
   Avatar,
   useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import BotIcon from "@mui/icons-material/SmartToy";
-import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
-import EmojiPicker from "emoji-picker-react";
+import Markdown from "markdown-to-jsx";
 
 const ChatBot = ({ onClose }) => {
   const theme = useTheme();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showEmoji, setShowEmoji] = useState(false);
   const [isTyping, setIsTyping] = useState(true);
   const messagesEndRef = useRef(null);
 
-  // автоскролл
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  // Блокируем скролл и взаимодействие
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.body.style.pointerEvents = "none";
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.pointerEvents = "";
+    };
+  }, []);
 
-  useEffect(scrollToBottom, [messages, loading]);
-
-  // имитация "печатает..." при первом открытии
+  // Приветствие и звук
   useEffect(() => {
     const timer = setTimeout(() => {
-      setMessages([{ role: "bot", text: "Здравствуйте! Чем могу помочь?" }]);
+      setMessages([
+        {
+          role: "bot",
+          text: "Здравствуйте! Я ваш ИИ-ассистент. Готов ответить на любые вопросы.",
+        },
+      ]);
       setIsTyping(false);
+
+      const audio = new Audio("/assets/sounds/bot-notification.mp3");
+      audio.volume = 0.7;
+      audio
+        .play()
+        .catch((e) =>
+          console.warn("Не удалось воспроизвести звук приветствия:", e.message)
+        );
     }, 1200);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
     const userMsg = { role: "user", text: input.trim() };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
-    setShowEmoji(false);
     setLoading(true);
 
     try {
@@ -65,6 +81,15 @@ const ChatBot = ({ onClose }) => {
       if (!res.ok) throw new Error("Ошибка при обращении к бэкенду");
 
       const data = await res.json();
+
+      const audio = new Audio("/assets/sounds/bot-notification.mp3");
+      audio.volume = 0.7;
+      audio
+        .play()
+        .catch((e) =>
+          console.warn("Не удалось воспроизвести звук ответа:", e.message)
+        );
+
       setMessages((prev) => [...prev, { role: "bot", text: data.reply }]);
     } catch (error) {
       console.error("Ошибка запроса:", error);
@@ -81,7 +106,7 @@ const ChatBot = ({ onClose }) => {
       sx={{
         position: "fixed",
         inset: 0,
-        zIndex: 9999,
+
         backgroundColor: "rgba(0, 0, 0, 0.6)",
         display: "flex",
         alignItems: "flex-end",
@@ -104,6 +129,7 @@ const ChatBot = ({ onClose }) => {
           borderRadius: 2,
           overflow: "hidden",
           position: "relative",
+          pointerEvents: "auto",
         }}
       >
         {/* HEADER */}
@@ -119,7 +145,13 @@ const ChatBot = ({ onClose }) => {
           }}
         >
           <Typography variant="h6">Orlov ИИ-ассистент</Typography>
-          <IconButton onClick={onClose}>
+          <IconButton
+            onClick={() => {
+              onClose();
+              document.body.style.overflow = "";
+              document.body.style.pointerEvents = "";
+            }}
+          >
             <CloseIcon sx={{ color: theme.palette.text.primary }} />
           </IconButton>
         </Box>
@@ -161,7 +193,31 @@ const ChatBot = ({ onClose }) => {
                     borderRadius: 2,
                   }}
                 >
-                  <ListItemText primary={msg.text} />
+                  <Markdown
+                    options={{
+                      forceBlock: true,
+                      overrides: {
+                        strong: {
+                          component: "strong",
+                          props: { style: { fontWeight: 600 } },
+                        },
+                        em: {
+                          component: "em",
+                          props: { style: { fontStyle: "italic" } },
+                        },
+                        del: {
+                          component: "del",
+                          props: { style: { textDecoration: "line-through" } },
+                        },
+                        p: {
+                          component: Typography,
+                          props: { variant: "body2", sx: { m: 0 } },
+                        },
+                      },
+                    }}
+                  >
+                    {msg.text}
+                  </Markdown>
                 </Paper>
               </ListItem>
             ))}
@@ -186,12 +242,41 @@ const ChatBot = ({ onClose }) => {
                     borderRadius: 2,
                   }}
                 >
-                  <Typography variant="body2" sx={{ fontStyle: "italic" }}>
-                    <span className="typing">Печатает</span>
-                    <span className="dot">.</span>
-                    <span className="dot">.</span>
-                    <span className="dot">.</span>
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      height: "24px",
+                      gap: "4px",
+                      "& .dot": {
+                        width: "6px",
+                        height: "6px",
+                        borderRadius: "50%",
+                        backgroundColor: theme.palette.text.primary,
+                        animation: "telegramBlink 1.3s infinite ease-in-out",
+                      },
+                      "& .dot:nth-of-type(2)": {
+                        animationDelay: "0.2s",
+                      },
+                      "& .dot:nth-of-type(3)": {
+                        animationDelay: "0.4s",
+                      },
+                      "@keyframes telegramBlink": {
+                        "0%, 80%, 100%": {
+                          transform: "scale(1)",
+                          opacity: 0.3,
+                        },
+                        "40%": {
+                          transform: "scale(1.4)",
+                          opacity: 1,
+                        },
+                      },
+                    }}
+                  >
+                    <span className="dot" />
+                    <span className="dot" />
+                    <span className="dot" />
+                  </Box>
                 </Paper>
               </ListItem>
             )}
@@ -199,20 +284,15 @@ const ChatBot = ({ onClose }) => {
           </List>
         </Box>
 
-        {/* INPUT BAR */}
+        {/* INPUT */}
         <Box
           sx={{
             display: "flex",
             p: 1,
             borderTop: "1px solid #333",
             backgroundColor: theme.palette.background.paper,
-            position: "relative",
           }}
         >
-          <IconButton onClick={() => setShowEmoji((prev) => !prev)}>
-            <InsertEmoticonIcon sx={{ color: theme.palette.text.primary }} />
-          </IconButton>
-
           <TextField
             fullWidth
             variant="outlined"
@@ -229,37 +309,15 @@ const ChatBot = ({ onClose }) => {
               },
             }}
           />
-
           <Button
             variant="contained"
             color="primary"
-            sx={{
-              ml: 1,
-              borderRadius: "8px",
-            }}
+            sx={{ ml: 1, borderRadius: "8px" }}
             onClick={handleSend}
             disabled={loading}
           >
             Отправить
           </Button>
-
-          {showEmoji && (
-            <Box
-              sx={{
-                position: "absolute",
-                bottom: "64px",
-                left: "8px",
-                zIndex: 9999,
-              }}
-            >
-              <EmojiPicker
-                theme="dark"
-                onEmojiClick={(emojiData) =>
-                  setInput((prev) => prev + emojiData.emoji)
-                }
-              />
-            </Box>
-          )}
         </Box>
       </Paper>
     </Box>

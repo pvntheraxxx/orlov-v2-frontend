@@ -9,11 +9,10 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
-import { useResponsive } from "../../hooks/useResponsive";
+import { useResponsive } from "../../../hooks/useResponsive";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import Brand from "../../assets/navBar/brand.svg?react";
 
 const SearchMenu = ({ open, onClose }) => {
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState("");
