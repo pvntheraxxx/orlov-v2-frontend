@@ -59,7 +59,7 @@ const HeroSection = () => {
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
+        // backgroundAttachment: "fixed",
         overflow: "hidden",
         flexShrink: 0,
         pt: `${NAVBAR_HEIGHT}px`,

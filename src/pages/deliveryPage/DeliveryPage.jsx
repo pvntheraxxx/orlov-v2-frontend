@@ -10,11 +10,7 @@ const DeliveryPage = () => {
   return (
     <>
       <DeliverySection />
-      {!isMobile && (
-        <div id="deliveryMap">
-          <DeliveryMap />
-        </div>
-      )}
+      <DeliveryMap />
     </>
   );
 };

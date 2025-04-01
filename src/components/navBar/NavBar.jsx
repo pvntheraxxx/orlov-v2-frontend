@@ -171,7 +171,7 @@ const NavBar = () => {
                     fontFamily: "Cinzel, serif", // или выбранный тобой luxury-шрифт
                   }}
                 >
-                  ORLOV
+                  ORLOV brand
                 </Typography>
               </a>
             </Box>
