@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import useTheme from "@mui/material/styles/useTheme";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const TeaserCard = ({
@@ -43,13 +43,9 @@ const TeaserCard = ({
     };
   }, []);
 
-  // Функция перехода аналогична NavBar
   const handleMenuClick = (path) => {
     if (location.pathname !== path) {
-      navigate(path);
-      setTimeout(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-      }, 10); // Даем время на смену маршрута
+      navigate(path); // Только переход, без scrollTo
     }
   };
 
@@ -152,9 +148,7 @@ const TeaserCard = ({
           </Typography>
 
           <Button
-            component={Link} // Используем Link вместо onClick
-            to={link} // Передаём ссылку
-            onClick={() => handleMenuClick(link)} // Аналогично NavBar
+            onClick={() => handleMenuClick(link)}
             sx={{
               mt: 3,
               alignSelf: "center",

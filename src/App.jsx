@@ -2,7 +2,7 @@ import { Suspense, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ResponsiveProvider } from "./hooks/useResponsive";
 import { MainLayout } from "./layouts";
-import { Loader, ScrollToTop } from "./components/ui";
+
 import {
   HomePage,
   AboutUsPage,
@@ -37,24 +37,21 @@ const App = () => {
     <CartProvider>
       <ResponsiveProvider>
         <BrowserRouter>
-          <Suspense fallback={<Loader />}>
-            <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<MainLayout />}>
-                <Route index element={<HomePage />} />
-                <Route path="about-us" element={<AboutUsPage />} />
-                <Route path="catalog" element={<CatalogPage />} />
-                <Route path="/catalog/:id" element={<ProductDetails />} />
-                <Route path="delivery" element={<DeliveryPage />} />
-                <Route path="contacts" element={<ContactsPage />} />
-                <Route path="reviews" element={<ReviewsPage />} />
-                <Route path="cart" element={<CartPage />} />
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="about-us" element={<AboutUsPage />} />
+              <Route path="catalog" element={<CatalogPage />} />
+              <Route path="/catalog/:id" element={<ProductDetails />} />
+              <Route path="delivery" element={<DeliveryPage />} />
+              <Route path="contacts" element={<ContactsPage />} />
+              <Route path="reviews" element={<ReviewsPage />} />
+              <Route path="cart" element={<CartPage />} />
 
-                <Route path="*" element={<NotFoundPage />} />
-              </Route>
-              {/* <Route path="/chatbot" element={<ChatBotPage />} /> */}
-            </Routes>
-          </Suspense>
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+            {/* <Route path="/chatbot" element={<ChatBotPage />} /> */}
+          </Routes>
         </BrowserRouter>
       </ResponsiveProvider>
     </CartProvider>
