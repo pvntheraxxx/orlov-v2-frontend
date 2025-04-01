@@ -7,22 +7,25 @@ import backgroundImage from "../../assets/heroSection/background1.png";
 import { NAVBAR_HEIGHT } from "../../constants/layout";
 
 const HeroSection = () => {
-  const { isSm, isMd, isLg } = useResponsive();
+  const { isSm, isMd, isLg, isIphoneSE, isIphone678Plus } = useResponsive();
 
-  // Условие для «средних» устройств (iPad Pro, Surface и т.д.)
-  // По умолчанию в Material UI:
-  // sm ~ до 600px, md ~ 600-900px, lg ~ 900-1200px, xl ~ 1200-1536px
-  // Но если у вас переопределены брейкпоинты, подстройте это условие под реальные цифры.
-  const isMiddleDevice = isMd || isLg; // Планшеты и часть ноутбуков
+  const isMiddleDevice = isMd || isLg;
+  const isSmallIphone = isIphoneSE || isIphone678Plus;
 
-  // Размер логотипа (не меняем, либо при желании чуть корректируем)
-  const logoSize = isSm
+  // 🔽 Уменьшенные размеры логотипа для нужных iPhone
+  const logoSize = isSmallIphone
+    ? { width: "65%", maxHeight: "35vh" }
+    : isSm
     ? { width: "80%", maxHeight: "45vh" }
     : isMd
     ? { width: "65%", maxHeight: "50vh" }
     : isLg
     ? { width: "30%", maxHeight: "60vh" }
     : { width: "30%", maxHeight: "65vh" };
+
+  const headingFontSize = isSmallIphone ? "1.05rem" : undefined;
+  const bodyFontSize = isSmallIphone ? "0.85rem" : 18;
+  const italicFontSize = isSmallIphone ? "0.95rem" : "1.1rem";
 
   return (
     <Box
@@ -38,9 +41,7 @@ const HeroSection = () => {
         backgroundPosition: "center",
         overflow: "hidden",
         flexShrink: 0,
-        // Верхний отступ под Navbar
         pt: `${NAVBAR_HEIGHT}px`,
-        // Минимальная высота
         minHeight: "100vh",
         "&::before": {
           content: '""',
@@ -61,24 +62,17 @@ const HeroSection = () => {
         alignItems="center"
         flexGrow={1}
         zIndex={2}
-        // Базовый вертикальный отступ 4
         py={4}
-        // Управляем выравниванием в зависимости от брейкпоинтов:
-        // - На мобильных (sm) центрируем
-        // - На планшетах и ноутбуках (md, lg) тоже центрируем, чтобы убрать лишний разрыв
-        // - На больших десктопах (xl) оставляем как было ("space-between")
         justifyContent={
           isSm ? "center" : isMiddleDevice ? "center" : "space-between"
         }
         sx={{
-          // На мобильных пусть остаётся вертикальная прокрутка при нехватке места + нижний отступ
           ...(isSm && {
             overflowY: "auto",
             pb: 7,
           }),
         }}
       >
-        {/* Логотип */}
         <Logo
           style={{
             width: logoSize.width,
@@ -86,41 +80,46 @@ const HeroSection = () => {
             maxHeight: logoSize.maxHeight,
             margin: "0 auto",
             filter: "drop-shadow(0px 4px 6px rgba(0,0,0,0.5))",
-            // Чуть уменьшим отступ у «средних» устройств,
-            // чтобы текст был ближе к логотипу
             marginBottom: isMiddleDevice ? "20px" : isSm ? "24px" : 0,
           }}
         />
 
-        {/* Текст */}
         <Box
           textAlign="center"
           px={isSm || isMd ? 2 : 4}
           maxWidth={isSm || isMd ? "100%" : 900}
         >
           <Typography
-            variant={isSm || isMd ? "h5" : "h4"}
+            variant="h5"
             fontWeight="bold"
             gutterBottom
+            sx={{
+              fontSize: headingFontSize, // ✅ Только на нужных iPhone
+            }}
           >
             СТИЛЬ и РАНГ — это ГЛАВНЫЕ детали для ЛИДЕРА в глобальном МИРЕ!
           </Typography>
 
           <Typography
             variant="body1"
-            fontSize={18}
             mt={3}
-            sx={{ whiteSpace: "pre-line" }}
+            sx={{
+              whiteSpace: "pre-line",
+              fontSize: bodyFontSize, // ✅ Только на нужных iPhone
+            }}
           >
             Премиальный бренд аксессуаров "ORLOV" создаст для Вас уникальный
             образ. Авторский вид и эксклюзивный дизайн подчеркнут статус
             обладателя. Наш онлайн-бутик представляет ассортимент для настоящих
             чемпионов по жизни!
             {"\n\n"}
-            <span style={{ fontStyle: "italic", fontSize: "1.1rem" }}>
+            <span
+              style={{
+                fontStyle: "italic",
+                fontSize: italicFontSize,
+              }}
+            >
               "Лучшее для Лучших" <br />
-            </span>
-            <span style={{ fontStyle: "italic", fontSize: "1.1rem" }}>
               (c) IVAN ORLOV
             </span>
           </Typography>

@@ -5,8 +5,8 @@ import {
   Button,
   Stack,
   IconButton,
-  Grid,
   Grow,
+  Grid,
 } from "@mui/material";
 import {
   Telegram,
@@ -17,11 +17,11 @@ import {
 } from "@mui/icons-material";
 import contactsImage from "../../assets/leadSection/contacts3.svg";
 import { FaVk } from "react-icons/fa";
-import { useResponsive } from "../../hooks/useResponsive"; // ✅ путь поправь под себя
+import { useResponsive } from "../../hooks/useResponsive"; // ✅ Убедись, что путь корректный
 
 const ContactsSection = () => {
-  const { isMd } = useResponsive(); // ✅ считаем мобильным всё, что md и меньше
-  const [copiedField, setCopiedField] = useState(null); // 'phone' | 'email' | null
+  const { isMd } = useResponsive(); // md и ниже считаем мобильным
+  const [copiedField, setCopiedField] = useState(null);
 
   const handleCopy = (value, field) => {
     navigator.clipboard.writeText(value);
@@ -60,7 +60,7 @@ const ContactsSection = () => {
         justifyContent="center"
         sx={{ flexGrow: 1 }}
       >
-        {/* Левая колонка */}
+        {/* Левая колонка с гербом */}
         <Grid
           item
           xs={12}
@@ -85,7 +85,7 @@ const ContactsSection = () => {
           />
         </Grid>
 
-        {/* Правая колонка */}
+        {/* Правая колонка с текстом и кнопками */}
         <Grid
           item
           xs={12}
@@ -97,13 +97,13 @@ const ContactsSection = () => {
             p: { xs: 2, md: 4 },
           }}
         >
-          <Box sx={{ width: "100%", maxWidth: 600 }}>
-            <Stack spacing={4} alignItems="center" textAlign="center">
-              <Typography variant="h3" fontWeight="bold">
+          <Box sx={{ width: "100%", maxWidth: 480 }}>
+            <Stack spacing={3} alignItems="center" textAlign="center">
+              <Typography variant="h4" fontWeight="bold">
                 СВЯЖИТЕСЬ С НАМИ
               </Typography>
 
-              <Typography sx={{ fontSize: "1.15rem", lineHeight: 1.7 }}>
+              <Typography sx={{ fontSize: "1rem", lineHeight: 1.6 }}>
                 Наша команда всегда готова помочь Вам 24/7. Если у Вас есть
                 вопросы о продукции, заказах или сотрудничестве – свяжитесь С
                 НАМИ любым удобным способом! Мы гарантируем оперативность и
@@ -112,7 +112,7 @@ const ContactsSection = () => {
                 совместного результата.
               </Typography>
 
-              <Stack spacing={2}>
+              <Stack spacing={1.5}>
                 <Button
                   startIcon={
                     !isMd && copiedField === "email" ? (
@@ -161,7 +161,7 @@ const ContactsSection = () => {
                 </Button>
               </Stack>
 
-              <Stack direction="row" spacing={3}>
+              <Stack direction="row" spacing={2}>
                 <IconButton
                   component="a"
                   href="https://t.me/ORLOV_brand777"
