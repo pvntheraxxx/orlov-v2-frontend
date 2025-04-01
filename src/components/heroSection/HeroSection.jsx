@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useResponsive } from "../../hooks/useResponsive";
 import Logo from "../../assets/heroSection/Logo3.svg?react";
 import backgroundImage from "../../assets/heroSection/background1.png";
 import { NAVBAR_HEIGHT } from "../../constants/layout";
+import { motion, useInView } from "framer-motion";
 
 const HeroSection = () => {
-  const { isSm, isMd, isLg, isIphoneSE, isIphone678Plus, isTablet, height } =
-    useResponsive();
-
+  const { isSm, isMd, isIphoneSE, isIphone678Plus } = useResponsive();
   const isCompactDevice = isIphoneSE || isIphone678Plus;
 
-  // 📐 Размер логотипа
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, amount: 0.4 });
+
   const logoStyle = {
     width: isCompactDevice ? "70%" : isSm ? "75%" : isMd ? "60%" : "30%",
     maxHeight: isCompactDevice
@@ -27,7 +28,6 @@ const HeroSection = () => {
     filter: "drop-shadow(0px 4px 6px rgba(0,0,0,0.5))",
   };
 
-  // 📏 Размер текста
   const headingFontSize = isCompactDevice
     ? "1.15rem"
     : isSm
@@ -48,6 +48,7 @@ const HeroSection = () => {
 
   return (
     <Box
+      ref={ref}
       display="flex"
       flexDirection="column"
       width="100%"
@@ -58,6 +59,7 @@ const HeroSection = () => {
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundAttachment: "fixed",
         overflow: "hidden",
         flexShrink: 0,
         pt: `${NAVBAR_HEIGHT}px`,
@@ -88,43 +90,63 @@ const HeroSection = () => {
           pb: 6,
         }}
       >
-        {/* ЛОГОТИП */}
-        <Logo style={logoStyle} />
+        {/* ЛОГОТИП — ТОЛЬКО FADE-IN */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <div style={logoStyle}>
+            <Logo style={{ width: "100%", height: "auto" }} />
+          </div>
+        </motion.div>
 
-        {/* ТЕКСТ */}
-        <Box textAlign="center" px={1} maxWidth={900}>
-          <Typography
-            fontWeight="bold"
-            gutterBottom
-            sx={{
-              fontSize: headingFontSize,
-              color: "#EFE393",
-              lineHeight: 1.4,
-            }}
-          >
-            СТИЛЬ и РАНГ — это ГЛАВНЫЕ детали для ЛИДЕРА в глобальном МИРЕ!
-          </Typography>
+        {/* ТЕКСТ — ТОЖЕ ТОЛЬКО FADE-IN */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 1.4, ease: "easeOut", delay: 0.3 }}
+        >
+          <Box textAlign="center" px={1} maxWidth={900}>
+            <Typography
+              fontWeight="bold"
+              gutterBottom
+              sx={{
+                fontSize: headingFontSize,
+                color: "#EFE393",
+                lineHeight: 1.4,
+              }}
+            >
+              СТИЛЬ и РАНГ — это ГЛАВНЫЕ детали для ЛИДЕРА в глобальном МИРЕ!
+            </Typography>
 
-          <Typography
-            mt={3}
-            sx={{
-              fontSize: bodyFontSize,
-              whiteSpace: "pre-line",
-              color: "#EFE393",
-              lineHeight: 1.6,
-            }}
-          >
-            Премиальный бренд аксессуаров "ORLOV" создаст для Вас уникальный
-            образ. Авторский вид и эксклюзивный дизайн подчеркнут статус
-            обладателя. Наш онлайн-бутик представляет ассортимент для настоящих
-            чемпионов по жизни!
-            {"\n\n"}
-            <span style={{ fontStyle: "italic", fontSize: italicFontSize }}>
-              "Лучшее для Лучших" <br />
-              (c) IVAN ORLOV
-            </span>
-          </Typography>
-        </Box>
+            <Typography
+              mt={3}
+              sx={{
+                fontSize: bodyFontSize,
+                whiteSpace: "pre-line",
+                color: "#EFE393",
+                lineHeight: 1.6,
+              }}
+            >
+              Премиальный бренд аксессуаров "ORLOV" создаст для Вас уникальный
+              образ. Авторский вид и эксклюзивный дизайн подчеркнут статус
+              обладателя. Наш онлайн-бутик представляет ассортимент для
+              настоящих чемпионов по жизни!
+              {"\n\n"}
+              <span style={{ fontStyle: "italic", fontSize: italicFontSize }}>
+                "Лучшее для Лучших" <br />
+                (c) IVAN ORLOV
+              </span>
+            </Typography>
+          </Box>
+        </motion.div>
       </Box>
     </Box>
   );
