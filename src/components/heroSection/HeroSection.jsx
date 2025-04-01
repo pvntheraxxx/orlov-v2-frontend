@@ -7,25 +7,44 @@ import backgroundImage from "../../assets/heroSection/background1.png";
 import { NAVBAR_HEIGHT } from "../../constants/layout";
 
 const HeroSection = () => {
-  const { isSm, isMd, isLg, isIphoneSE, isIphone678Plus } = useResponsive();
+  const { isSm, isMd, isLg, isIphoneSE, isIphone678Plus, isTablet, height } =
+    useResponsive();
 
-  const isMiddleDevice = isMd || isLg;
-  const isSmallIphone = isIphoneSE || isIphone678Plus;
+  const isCompactDevice = isIphoneSE || isIphone678Plus;
 
-  // 🔽 Уменьшенные размеры логотипа для нужных iPhone
-  const logoSize = isSmallIphone
-    ? { width: "65%", maxHeight: "35vh" }
+  // 📐 Размер логотипа
+  const logoStyle = {
+    width: isCompactDevice ? "70%" : isSm ? "75%" : isMd ? "60%" : "30%",
+    maxHeight: isCompactDevice
+      ? "28vh"
+      : isSm
+      ? "32vh"
+      : isMd
+      ? "40vh"
+      : "45vh",
+    margin: "0 auto",
+    marginBottom: isCompactDevice ? "12px" : "16px",
+    filter: "drop-shadow(0px 4px 6px rgba(0,0,0,0.5))",
+  };
+
+  // 📏 Размер текста
+  const headingFontSize = isCompactDevice
+    ? "1.15rem"
     : isSm
-    ? { width: "80%", maxHeight: "45vh" }
+    ? "1.3rem"
     : isMd
-    ? { width: "65%", maxHeight: "50vh" }
-    : isLg
-    ? { width: "30%", maxHeight: "60vh" }
-    : { width: "30%", maxHeight: "65vh" };
+    ? "1.6rem"
+    : "2rem";
 
-  const headingFontSize = isSmallIphone ? "1.05rem" : undefined;
-  const bodyFontSize = isSmallIphone ? "0.85rem" : 18;
-  const italicFontSize = isSmallIphone ? "0.95rem" : "1.1rem";
+  const bodyFontSize = isCompactDevice
+    ? "0.85rem"
+    : isSm
+    ? "0.95rem"
+    : isMd
+    ? "1.05rem"
+    : "1.15rem";
+
+  const italicFontSize = isCompactDevice ? "0.9rem" : isSm ? "1rem" : "1.1rem";
 
   return (
     <Box
@@ -60,52 +79,39 @@ const HeroSection = () => {
         display="flex"
         flexDirection="column"
         alignItems="center"
+        justifyContent="center"
         flexGrow={1}
         zIndex={2}
-        py={4}
-        justifyContent={
-          isSm ? "center" : isMiddleDevice ? "center" : "space-between"
-        }
+        py={isCompactDevice ? 2 : 4}
         sx={{
-          ...(isSm && {
-            overflowY: "auto",
-            pb: 7,
-          }),
+          overflowY: "auto",
+          pb: 6,
         }}
       >
-        <Logo
-          style={{
-            width: logoSize.width,
-            height: "auto",
-            maxHeight: logoSize.maxHeight,
-            margin: "0 auto",
-            filter: "drop-shadow(0px 4px 6px rgba(0,0,0,0.5))",
-            marginBottom: isMiddleDevice ? "20px" : isSm ? "24px" : 0,
-          }}
-        />
+        {/* ЛОГОТИП */}
+        <Logo style={logoStyle} />
 
-        <Box
-          textAlign="center"
-          px={isSm || isMd ? 2 : 4}
-          maxWidth={isSm || isMd ? "100%" : 900}
-        >
+        {/* ТЕКСТ */}
+        <Box textAlign="center" px={1} maxWidth={900}>
           <Typography
-            variant="h5"
             fontWeight="bold"
             gutterBottom
             sx={{
-              fontSize: headingFontSize, // ✅ Только на нужных iPhone
+              fontSize: headingFontSize,
+              color: "#EFE393",
+              lineHeight: 1.4,
             }}
           >
             СТИЛЬ и РАНГ — это ГЛАВНЫЕ детали для ЛИДЕРА в глобальном МИРЕ!
           </Typography>
 
           <Typography
-            variant="body1"
             mt={3}
             sx={{
+              fontSize: bodyFontSize,
               whiteSpace: "pre-line",
-              fontSize: bodyFontSize, // ✅ Только на нужных iPhone
+              color: "#EFE393",
+              lineHeight: 1.6,
             }}
           >
             Премиальный бренд аксессуаров "ORLOV" создаст для Вас уникальный
@@ -113,12 +119,7 @@ const HeroSection = () => {
             обладателя. Наш онлайн-бутик представляет ассортимент для настоящих
             чемпионов по жизни!
             {"\n\n"}
-            <span
-              style={{
-                fontStyle: "italic",
-                fontSize: italicFontSize,
-              }}
-            >
+            <span style={{ fontStyle: "italic", fontSize: italicFontSize }}>
               "Лучшее для Лучших" <br />
               (c) IVAN ORLOV
             </span>
