@@ -158,12 +158,12 @@ const NavBar = () => {
             >
               <a>
                 <Typography
-                  variant="h6"
+                  variant="h5"
                   sx={{
                     fontSize: {
-                      xs: "24px", // на мобильных
+                      xs: "19px", // на мобильных
                       sm: "28px",
-                      md: "32px",
+                      md: "27px",
                     },
                     // fontWeight: 600,
                     letterSpacing: "1px",

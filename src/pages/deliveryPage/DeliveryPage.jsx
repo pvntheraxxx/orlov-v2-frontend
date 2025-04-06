@@ -10,7 +10,7 @@ const DeliveryPage = () => {
   return (
     <>
       <DeliverySection />
-      <DeliveryMap />
+      {/* <DeliveryMap /> */}
     </>
   );
 };

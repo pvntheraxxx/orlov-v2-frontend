@@ -152,9 +152,10 @@ export default function Catalog() {
         }}
       >
         {/* Фильтры */}
+        {/* Фильтры */}
         <Box
           sx={{
-            cursor: "../../../public/assets/cursor/cursor-pointer.png",
+            cursor: 'url("/assets/cursor/cursor-pointer.png"), pointer',
             position: isMobile ? "relative" : "fixed",
             top: isMobile ? "auto" : 96,
             height: isMobile ? "auto" : "calc(100vh - 112px)",
@@ -166,6 +167,10 @@ export default function Catalog() {
             mx: isMobile ? 2 : 0,
             mb: isMobile ? 2 : 0,
             zIndex: 1,
+            "& .MuiSelect-select, & .MuiMenuItem-root, & .MuiOutlinedInput-root":
+              {
+                cursor: 'url("/assets/cursor/cursor-pointer.png"), pointer',
+              },
           }}
         >
           <Typography variant="h6" sx={{ mt: 2 }} color="text.primary">
@@ -177,7 +182,10 @@ export default function Catalog() {
             min={4999}
             max={20000}
             valueLabelDisplay="auto"
-            sx={{ width: "93%" }}
+            sx={{
+              width: "93%",
+              cursor: 'url("/assets/cursor/cursor-pointer.png"), pointer',
+            }}
           />
 
           <Typography variant="h6" sx={{ mt: 2 }} color="text.primary">
@@ -198,9 +206,16 @@ export default function Catalog() {
                           : [...prev, type]
                       )
                     }
+                    sx={{
+                      cursor:
+                        'url("/assets/cursor/cursor-pointer.png"), pointer',
+                    }}
                   />
                 }
                 label={<Typography color="text.primary">{type}</Typography>}
+                sx={{
+                  cursor: 'url("/assets/cursor/cursor-pointer.png"), pointer',
+                }}
               />
             ))}
           </Box>
@@ -213,6 +228,15 @@ export default function Catalog() {
             value={selectedColor}
             onChange={(e) => setSelectedColor(e.target.value)}
             sx={{ mb: 2 }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  "& .MuiMenuItem-root": {
+                    cursor: 'url("/assets/cursor/cursor-pointer.png"), pointer',
+                  },
+                },
+              },
+            }}
           >
             {colorOptions.map((color) => (
               <MenuItem key={color} value={color}>
@@ -228,8 +252,15 @@ export default function Catalog() {
             fullWidth
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
-            sx={{
-              mb: 2,
+            sx={{ mb: 2 }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  "& .MuiMenuItem-root": {
+                    cursor: 'url("/assets/cursor/cursor-pointer.png"), pointer',
+                  },
+                },
+              },
             }}
           >
             <MenuItem value="Популярные">Популярные</MenuItem>
@@ -243,7 +274,10 @@ export default function Catalog() {
             fullWidth
             variant="outlined"
             onClick={resetFilters}
-            sx={{ mt: 2 }}
+            sx={{
+              mt: 2,
+              cursor: 'url("/assets/cursor/cursor-pointer.png"), pointer',
+            }}
           >
             Сбросить фильтры
           </Button>
@@ -273,9 +307,11 @@ export default function Catalog() {
           ) : (
             <Grid container spacing={2}>
               {filteredProducts.map((product) => (
-                <Grid item xs={12} sm={6} md={4} key={product.id}>
+                <Grid item xs={6} sm={6} md={4} key={product.id}>
                   <Card
                     sx={{
+                      cursor:
+                        'url("/assets/cursor/cursor-pointer.png"), pointer',
                       position: "relative",
                       height: { xs: "400px", md: "600px" },
                       borderRadius: "16px",
@@ -314,7 +350,9 @@ export default function Catalog() {
                         color: "#fff",
                       }}
                     >
-                      <Typography variant="h5">{product.name}</Typography>
+                      <Typography variant={isMobile ? "subtitle1" : "h5"}>
+                        {product.name}
+                      </Typography>
                       <Typography sx={{ mt: 1 }}>
                         Цена: {product.price} ₽
                       </Typography>
