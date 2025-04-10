@@ -10,10 +10,8 @@ import Badge from "@mui/material/Badge";
 import { FaSearchDollar, FaUserTie, FaShoppingCart } from "react-icons/fa";
 import { useResponsive } from "../../hooks/useResponsive";
 import { LoginForm, SearchMenu } from "../ui";
-
 import { CartContext } from "../../contexts/CartContext";
 
-// Модальные окна и уведомления
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -33,8 +31,10 @@ const NavBar = () => {
 
   const [openLogin, setOpenLogin] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const [openProfile, setOpenProfile] = useState(false);
   const [loginSuccessOpen, setLoginSuccessOpen] = useState(false);
   const [badgeVisible, setBadgeVisible] = useState(false);
@@ -94,7 +94,6 @@ const NavBar = () => {
           zIndex: 9999,
         }}
       >
-        {/* Узкая верхняя полоса */}
         <Box
           sx={{
             width: "100%",
@@ -130,7 +129,6 @@ const NavBar = () => {
               0 12px 24px rgba(0, 0, 0, 0.4)
             `,
             padding: "0px 24px",
-            // Высота самого AppBar
             height: isMobile ? "44px" : "52px",
             display: "flex",
             justifyContent: "center",
@@ -146,7 +144,6 @@ const NavBar = () => {
               gap: isTablet ? 1 : 3,
             }}
           >
-            {/* Логотип/Brand */}
             <Box
               sx={{
                 display: "flex",
@@ -161,14 +158,13 @@ const NavBar = () => {
                   variant="h5"
                   sx={{
                     fontSize: {
-                      xs: "19px", // на мобильных
+                      xs: "19px",
                       sm: "28px",
                       md: "27px",
                     },
-                    // fontWeight: 600,
                     letterSpacing: "1px",
-                    color: "#EFE393", // основной брендовый цвет
-                    fontFamily: "Cinzel, serif", // или выбранный тобой luxury-шрифт
+                    color: "#EFE393",
+                    fontFamily: "Cinzel, serif",
                   }}
                 >
                   ORLOV brand
@@ -176,7 +172,6 @@ const NavBar = () => {
               </a>
             </Box>
 
-            {/* Горизонтальное меню (для десктопа) */}
             {!isMobile && (
               <Box
                 sx={{
@@ -235,7 +230,6 @@ const NavBar = () => {
               </Box>
             )}
 
-            {/* Иконки справа */}
             <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
               <IconButton
                 color="inherit"
@@ -245,7 +239,6 @@ const NavBar = () => {
                 <FaSearchDollar size={20} />
               </IconButton>
 
-              {/* Корзина с динамическим бейджем */}
               <Badge
                 badgeContent={cartCount}
                 color="error"
@@ -261,61 +254,30 @@ const NavBar = () => {
                 </IconButton>
               </Badge>
 
-              {/* Иконка профиля с бейджем */}
-              {user ? (
-                badgeVisible ? (
-                  <Badge
-                    overlap="circular"
-                    color="error"
-                    badgeContent="!"
-                    variant="standard"
-                  >
-                    <IconButton
-                      color="inherit"
-                      sx={{ padding: "6px" }}
-                      onClick={handleUserClick}
-                    >
-                      <FaUserTie size={20} />
-                    </IconButton>
-                  </Badge>
-                ) : (
-                  <IconButton
-                    color="inherit"
-                    sx={{ padding: "6px" }}
-                    onClick={handleUserClick}
-                  >
-                    <FaUserTie size={20} />
-                  </IconButton>
-                )
-              ) : (
-                <IconButton
-                  color="inherit"
-                  sx={{ padding: "6px" }}
-                  onClick={handleUserClick}
-                >
-                  <FaUserTie size={20} />
-                </IconButton>
-              )}
+              <IconButton
+                sx={{ padding: "6px", color: user ? "limegreen" : "inherit" }}
+                onClick={handleUserClick}
+              >
+                <FaUserTie size={20} />
+              </IconButton>
             </Box>
           </Toolbar>
         </AppBar>
       </Box>
 
-      {/* Поисковое меню */}
       <SearchMenu open={searchOpen} onClose={() => setSearchOpen(false)} />
 
-      {/* Модальное окно с формой входа */}
       <LoginForm
         open={openLogin}
         onClose={handleCloseLogin}
         setUser={(userData) => {
           setUser(userData);
+          localStorage.setItem("user", JSON.stringify(userData));
           setBadgeVisible(true);
           setLoginSuccessOpen(true);
         }}
       />
 
-      {/* Модальное окно профиля */}
       <ProfileModal
         open={openProfile}
         onClose={() => setOpenProfile(false)}
@@ -323,7 +285,6 @@ const NavBar = () => {
         handleLogout={handleLogout}
       />
 
-      {/* Уведомление о успешном входе */}
       <Snackbar
         open={loginSuccessOpen}
         autoHideDuration={3000}
@@ -344,7 +305,6 @@ const NavBar = () => {
 
 export default NavBar;
 
-// Компонент ProfileModal
 const ProfileModal = ({ open, onClose, user, handleLogout }) => {
   return (
     <Dialog
@@ -368,6 +328,7 @@ const ProfileModal = ({ open, onClose, user, handleLogout }) => {
           position: "relative",
           paddingRight: "16px",
         }}
+        component="div" // Изменили с "h2" на "div"
       >
         <Typography variant="h6" sx={{ width: "100%" }}>
           Профиль

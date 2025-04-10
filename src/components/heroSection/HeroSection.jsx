@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useResponsive } from "../../hooks/useResponsive";
 import Logo from "../../assets/heroSection/Logo3.svg?react";
-import backgroundImage from "../../assets/heroSection/background3.png";
+import backgroundImage from "../../assets/heroSection/background4.jpeg";
 import { NAVBAR_HEIGHT } from "../../constants/layout";
 import { motion, useInView } from "framer-motion";
 
@@ -14,6 +14,9 @@ const HeroSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.4 });
 
+  // Увеличиваем отступ только на десктопах (то есть когда не isSm, не iPhone итд.)
+  // Предположим, что "isMd" — это планшет, а всё, что больше isMd, уже считается «Desktop».
+  // Ниже условно заданы отступы, подкорректируйте их под себя при необходимости.
   const logoStyle = {
     width: isCompactDevice ? "70%" : isSm ? "75%" : isMd ? "60%" : "30%",
     maxHeight: isCompactDevice
@@ -24,7 +27,14 @@ const HeroSection = () => {
       ? "40vh"
       : "45vh",
     margin: "0 auto",
-    marginBottom: isCompactDevice ? "12px" : "16px",
+    // ---- ВАЖНО: меняем marginBottom для больших экранов ----
+    marginBottom: isCompactDevice
+      ? "12px"    // iPhone SE / iPhone+
+      : isSm
+      ? "16px"    // маленькие экраны (sm)
+      : isMd
+      ? "20px"    // средние экраны (md), например планшеты
+      : "60px",   // большие экраны (desktop) — поставили побольше
     filter: "drop-shadow(0px 4px 6px rgba(0,0,0,0.5))",
   };
 
@@ -59,7 +69,6 @@ const HeroSection = () => {
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        // backgroundAttachment: "fixed",
         overflow: "hidden",
         flexShrink: 0,
         pt: `${NAVBAR_HEIGHT}px`,

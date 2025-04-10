@@ -38,12 +38,10 @@ const LoginForm = ({ open, onClose, setUser }) => {
       if (response.ok) {
         alert("✅ Вход выполнен успешно!");
         console.log("✅ Авторизация успешна:", data);
-        // Здесь предполагается, что сервер возвращает объект с полем user
-        // Если сервер возвращает, например, { access_token, user: { name, ... } }
-        // то вызываем setUser(data.user). Если нет, можно передать данные из email.
+        // Сохраняем пользователя в контексте
         setUser(data.user || { name: email });
-        // Опционально: сохранить токен
-        // localStorage.setItem("token", data.access_token);
+        // Сохраняем токен в localStorage под ключом "access_token"
+        localStorage.setItem("access_token", data.access_token);
         onClose();
       } else {
         alert(`❌ Ошибка входа: ${data.message || "Неизвестная ошибка"}`);

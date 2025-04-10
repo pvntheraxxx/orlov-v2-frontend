@@ -6,6 +6,7 @@ import useTheme from "@mui/material/styles/useTheme";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { LuxeButton } from "../ui";
 
 const TeaserCard = ({
   title,
@@ -147,34 +148,12 @@ const TeaserCard = ({
             {description}
           </Typography>
 
-          <Button
+          <LuxeButton
+            sx={{ marginTop: 2 }}
             onClick={() => handleMenuClick(link)}
-            sx={{
-              mt: 3,
-              alignSelf: "center",
-              width: "auto",
-              backgroundColor: "#EFE393",
-              color: "#181818",
-              borderRadius: "6px",
-              padding: "6px 16px",
-              textTransform: "none",
-              fontSize: "14px",
-              fontWeight: "normal",
-              boxShadow: "0px 2px 6px rgba(255, 255, 150, 0.3)",
-              transition: "all 0.2s ease-in-out",
-              "&:hover": {
-                backgroundColor: "#D8D080",
-                transform: "scale(1.03)",
-                boxShadow: "0px 4px 10px rgba(255, 255, 150, 0.4)",
-              },
-              "&:active": {
-                backgroundColor: "#BFB760",
-                transform: "scale(0.97)",
-              },
-            }}
           >
             {buttonText}
-          </Button>
+          </LuxeButton>
         </Box>
       </Box>
     </motion.div>

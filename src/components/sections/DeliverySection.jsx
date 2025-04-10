@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { containerVariants } from "./LeadSection";
 import DeliveryMap from "../deliveryMap/DeliveryMap";
+import { LuxeButton } from "../ui/";
 
 const DeliverySection = () => {
   const theme = useTheme();
@@ -65,36 +66,18 @@ const DeliverySection = () => {
           </Box>
 
           {/* Текст ближе к карте и компактнее */}
-          <Typography sx={{ mb: 2 }}>
+          <Typography sx={{ mb: 2 }} variant="body2" color="text.secondary">
             Мы обеспечиваем быструю и надёжную доставку по России и МИРУ. Наши
             товары тщательно упаковываются, чтобы гарантировать их сохранность.
-          </Typography>
-          <Typography sx={{ mb: 2 }}>
             Выберите любой способ доставки из предложенных вариантов. Если у Вас
             возникли вопросы по логистике, мы предложим удобные решения в
-            кратчайшие сроки.
-          </Typography>
-          <Typography sx={{ mb: 3 }}>
-            Мы предлагаем подробное отслеживание и прозрачную консультационную
-            поддержку по товарам.
+            кратчайшие сроки.Мы предлагаем подробное отслеживание и прозрачную
+            консультационную поддержку по товарам.
           </Typography>
 
           {/* Кнопка «Подробнее» */}
-          <Button
-            href="#"
-            sx={{
-              backgroundColor: "primary.main",
-              color: "#000",
-              textTransform: "none",
-              maxWidth: 200,
-              mx: "auto",
-              "&:hover": {
-                backgroundColor: "primary.main",
-              },
-            }}
-          >
-            Подробнее
-          </Button>
+
+          <LuxeButton href="">Подробнее</LuxeButton>
         </Box>
       </motion.div>
     );
@@ -150,29 +133,46 @@ const DeliverySection = () => {
           >
             ДОСТАВКА ПО МИРУ
           </Typography>
-          <Typography sx={{ mb: 2 }}>
+          <Typography sx={{ mb: 2 }} variant="body2" color="text.secondary">
             Мы обеспечиваем быструю и надёжную доставку по России и МИРУ. Наши
             товары тщательно упаковываются, чтобы гарантировать их сохранность.
-          </Typography>
-          <Typography sx={{ mb: 2 }}>
             Выберите любой способ доставки из предложенных вариантов. Если у Вас
             возникли вопросы по логистике, мы предложим удобные решения в
-            кратчайшие сроки.
+            кратчайшие сроки. Мы предлагаем подробное отслеживание и прозрачную
+            консультационную поддержку по товарам.
           </Typography>
-          <Typography sx={{ mb: 3 }}>
-            Мы предлагаем подробное отслеживание и прозрачную консультационную
-            поддержку по товарам.
-          </Typography>
+
           <Button
-            href="#"
+            href=""
             sx={{
-              backgroundColor: "primary.main",
+              backgroundColor: "#EFE393",
               color: "#000",
               textTransform: "none",
-              maxWidth: 200,
-              alignSelf: "flex-start",
+              maxWidth: 100,
+              borderRadius: "12px",
+              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+              transition: "all 0.4s ease-in-out",
+              position: "relative",
+              overflow: "hidden",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                top: 0,
+                left: "-75%",
+                width: "50%",
+                height: "100%",
+                background:
+                  "linear-gradient(120deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.6) 100%)",
+                transform: "skewX(-20deg)",
+                transition: "left 0.5s ease",
+              },
+              "&:hover::before": {
+                left: "125%",
+              },
               "&:hover": {
-                backgroundColor: "primary.main",
+                backgroundColor: "#F7F0C3",
+                transform: "translateY(-3px) scale(1.05)",
+                boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
               },
             }}
           >

@@ -7,6 +7,7 @@ import { MobileBottomNav } from "../components/mobileMenu";
 import { useResponsive } from "../hooks/useResponsive";
 import { ScrollToTopButton } from "../components/ui";
 import { SupportButton } from "../components/ui";
+import { AuthStatus } from "../components/ui";
 
 const MOBILE_NAV_HEIGHT = 64;
 
@@ -33,7 +34,6 @@ const MainLayout = () => {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <NavBar />
-
       <Box
         component="main"
         style={{
@@ -51,7 +51,10 @@ const MainLayout = () => {
       </Box>
 
       {/* Кнопка поддержки не отображается на странице каталога */}
-      {location.pathname !== "/catalog" && <SupportButton />}
+      {!["/catalog", "/request"].includes(location.pathname) && (
+        <SupportButton />
+      )}
+
       {location.pathname !== "/catalog" && <ScrollToTopButton />}
 
       {isMobile && (

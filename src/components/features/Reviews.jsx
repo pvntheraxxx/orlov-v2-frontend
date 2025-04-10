@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Toolbar,
@@ -6,20 +6,21 @@ import {
   Grid,
   Avatar,
   Rating,
-  useMediaQuery,
   TextField,
+  Alert,
   Button,
+  useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
-import reviewsData from "../../data/reviewsData";
+import { LuxeButton } from "../ui";
+import reviewsData from "../../data/reviewsData"; // ← Искусственные отзывы
+import { LoginForm } from "../ui"; // проверьте путь
 
-// Функция проверки, открыт ли сайт в WebView ВКонтакте
 const isVKWebView = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
   return /VK/i.test(userAgent);
 };
 
-// Компонент карточки отзыва
 const ReviewCard = ({ review, index }) => {
   const isMobile = useMediaQuery("(max-width:600px)");
 
@@ -63,8 +64,7 @@ const ReviewCard = ({ review, index }) => {
               alt={review.name}
               sx={{ width: 40, height: 40, mr: 2 }}
               onError={(e) => {
-                console.error(`Не удалось загрузить аватар: ${review.avatar}`);
-                e.target.src = "/assets/avatars/default.webp"; // fallback
+                e.target.src = "/assets/avatars/default.webp";
               }}
             />
             <Typography
@@ -79,10 +79,10 @@ const ReviewCard = ({ review, index }) => {
             variant="body1"
             sx={{ flexGrow: 1, fontSize: { xs: "0.9rem", md: "1rem" } }}
           >
-            {review.text}
+            {review.content || review.text}
           </Typography>
           <Rating
-            value={review.rating || 5} // Если нет поля rating, берём 5 по умолчанию
+            value={review.rating || 5}
             readOnly
             precision={0.5}
             sx={{
@@ -97,38 +97,77 @@ const ReviewCard = ({ review, index }) => {
 };
 
 const ReviewsWall = () => {
-  const [isVK, setIsVK] = useState(false);
-
-  // Локальное состояние для списка отзывов
-  const [reviewList, setReviewList] = useState(reviewsData);
-
-  // Поля формы для нового отзыва
+  const [isVK] = useState(isVKWebView());
+  const [realReviews, setRealReviews] = useState([]);
   const [newReviewName, setNewReviewName] = useState("");
   const [newReviewText, setNewReviewText] = useState("");
   const [newReviewRating, setNewReviewRating] = useState(5);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+
+  const isAuthenticated = !!localStorage.getItem("access_token");
+
+  // Функция для загрузки настоящих отзывов с сервера
+  const fetchReviews = async () => {
+    try {
+      const res = await fetch(
+        "https://orlov-v2-backend.up.railway.app/comments"
+      );
+      const data = await res.json();
+      // Если сервер вернул массив, сохраняем его, иначе оставляем пустой массив
+      setRealReviews(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Ошибка при загрузке отзывов:", err);
+    }
+  };
 
   useEffect(() => {
-    setIsVK(isVKWebView());
+    fetchReviews();
   }, []);
 
-  // Добавление нового отзыва в начало локального списка
-  const handleAddReview = () => {
-    if (!newReviewName.trim() || !newReviewText.trim()) return;
+  const handleAddReview = async () => {
+    setError("");
+    if (!newReviewName.trim() || !newReviewText.trim()) {
+      setError("Пожалуйста, заполните все поля.");
+      return;
+    }
 
-    const newReview = {
-      name: newReviewName,
-      text: newReviewText,
-      rating: newReviewRating,
-      avatar: "", // Можно задать свой дефолтный аватар
-      company: "",
-    };
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("access_token");
 
-    setReviewList([newReview, ...reviewList]); // Добавляем новый отзыв в начало списка
+      const res = await fetch(
+        "https://orlov-v2-backend.up.railway.app/comments",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: newReviewName,
+            content: newReviewText,
+            rating: newReviewRating,
+          }),
+        }
+      );
 
-    // Сбрасываем поля формы
-    setNewReviewName("");
-    setNewReviewText("");
-    setNewReviewRating(5);
+      if (!res.ok) {
+        throw new Error(await res.text());
+      }
+
+      setNewReviewName("");
+      setNewReviewText("");
+      setNewReviewRating(5);
+      alert("Спасибо! Ваш отзыв отправлен на модерацию.");
+      fetchReviews(); // подгрузить обновлённый список настоящих отзывов
+    } catch (err) {
+      console.error(err);
+      setError("Ошибка при отправке. Попробуйте позже.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -150,64 +189,78 @@ const ReviewsWall = () => {
           gap: 4,
         }}
       >
-        {/* Форма для добавления отзыва слева */}
+        {/* Левая часть: форма для оставления отзыва */}
         <Box sx={{ width: { xs: "100%", md: "300px" } }}>
           <Typography variant="h6" color="white" gutterBottom>
             Оставить отзыв
           </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-            }}
-          >
-            <TextField
-              variant="filled"
-              label="Ваше имя"
-              value={newReviewName}
-              onChange={(e) => setNewReviewName(e.target.value)}
-              InputProps={{ style: { color: "white" } }}
-              InputLabelProps={{ style: { color: "white" } }}
-            />
-            <TextField
-              variant="filled"
-              label="Ваш отзыв"
-              value={newReviewText}
-              onChange={(e) => setNewReviewText(e.target.value)}
-              multiline
-              rows={3}
-              InputProps={{ style: { color: "white" } }}
-              InputLabelProps={{ style: { color: "white" } }}
-            />
-            <Rating
-              name="new-review-rating"
-              value={newReviewRating}
-              onChange={(event, newValue) => {
-                setNewReviewRating(newValue);
-              }}
-              sx={{
-                "& .MuiRating-iconFilled": { color: "#EFE393" },
-                fontSize: { xs: "1.5rem", md: "2rem" },
-              }}
-            />
-            <Button variant="contained" onClick={handleAddReview}>
-              Добавить
-            </Button>
-          </Box>
+
+          {isAuthenticated ? (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <TextField
+                variant="filled"
+                label="Ваше имя"
+                value={newReviewName}
+                onChange={(e) => setNewReviewName(e.target.value)}
+                InputProps={{ style: { color: "white" } }}
+                InputLabelProps={{ style: { color: "white" } }}
+              />
+              <TextField
+                variant="filled"
+                label="Ваш отзыв"
+                value={newReviewText}
+                onChange={(e) => setNewReviewText(e.target.value)}
+                multiline
+                rows={3}
+                InputProps={{ style: { color: "white" } }}
+                InputLabelProps={{ style: { color: "white" } }}
+              />
+              <Rating
+                value={newReviewRating}
+                onChange={(e, val) => setNewReviewRating(val)}
+                sx={{
+                  "& .MuiRating-iconFilled": { color: "#EFE393" },
+                  fontSize: { xs: "1.5rem", md: "2rem" },
+                }}
+              />
+              {error && <Typography color="error">{error}</Typography>}
+              <LuxeButton onClick={handleAddReview} disabled={loading}>
+                {loading ? "Отправка..." : "Добавить"}
+              </LuxeButton>
+            </Box>
+          ) : (
+            <Alert severity="warning" sx={{ mt: 2 }}>
+              Только зарегистрированные пользователи могут оставлять отзывы.
+              <Button onClick={() => setAuthModalOpen(true)} sx={{ mt: 1 }}>
+                Войти
+              </Button>
+            </Alert>
+          )}
         </Box>
 
-        {/* Сетка отзывов справа */}
+        {/* Правая часть: список отзывов */}
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={3}>
-            {reviewList.map((review, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
+            {/* Сначала отображаем искусственные отзывы */}
+            {reviewsData.map((review, index) => (
+              <Grid item xs={12} sm={6} md={3} key={`artificial-${index}`}>
                 <ReviewCard review={review} index={index} />
+              </Grid>
+            ))}
+            {/* Затем добавляем настоящие отзывы с сервера */}
+            {realReviews.map((review, index) => (
+              <Grid item xs={12} sm={6} md={3} key={`real-${index}`}>
+                <ReviewCard
+                  review={review}
+                  index={reviewsData.length + index}
+                />
               </Grid>
             ))}
           </Grid>
         </Box>
       </Box>
+
+      <LoginForm open={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </Box>
   );
 };

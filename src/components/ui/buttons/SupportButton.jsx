@@ -45,9 +45,8 @@ const SupportButton = () => {
   };
 
   const handleLeaveRequest = () => {
-    setOpen(false);
-    setChatBotVisible(false);
-    navigate("/contacts");
+    // Моментальный переход без задержек
+    navigate("/request");
   };
 
   const handleCloseChatBot = () => {
@@ -75,7 +74,6 @@ const SupportButton = () => {
         <RoomService sx={{ fontSize: { xs: 28, md: 32 } }} />
       </Fab>
 
-      {/* 🌒 Затемнение всей страницы */}
       <AnimatePresence>
         {(open || chatBotVisible) && (
           <motion.div
@@ -95,7 +93,6 @@ const SupportButton = () => {
         )}
       </AnimatePresence>
 
-      {/* 🪟 Само модальное окно — выше фона */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -170,7 +167,6 @@ const SupportButton = () => {
         )}
       </AnimatePresence>
 
-      {/* 🤖 ChatBot с анимацией */}
       <AnimatePresence>
         {chatBotVisible && (
           <motion.div

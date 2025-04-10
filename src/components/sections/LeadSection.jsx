@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  Grid,
-  Button,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Container, Typography, Grid, useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { LuxeButton } from "../ui/"; // 💡 Убедись, что путь корректный
 
 export const containerVariants = {
   hidden: {},
@@ -28,34 +22,28 @@ const LeadSection = ({
   buttonLink,
   imagePosition,
   imageUrl,
-  imageStyles = {}, // Новый пропс для стилей изображения
+  imageStyles = {},
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    // Проверяем, указывает ли buttonLink на якорь (начинается с #)
     if (buttonLink.startsWith("#")) {
-      const targetId = buttonLink.substring(1); // убираем '#'
+      const targetId = buttonLink.substring(1);
       const targetElement = document.getElementById(targetId);
       if (targetElement) {
-        // Допустим, высота вашей шапки 80px
         const navBarHeight = 80;
-        // Текущее положение элемента
         const elementPosition =
           targetElement.getBoundingClientRect().top + window.pageYOffset;
-        // Вычитаем высоту шапки, чтобы карта была ровно под NavBar
         const offsetPosition = elementPosition - navBarHeight;
 
-        // Мгновенно перемещаемся к нужной позиции
         window.scrollTo({
           top: offsetPosition,
-          behavior: "auto", // без плавной анимации
+          behavior: "auto",
         });
       }
     } else {
-      // Иначе, если это не якорь, переходим по маршруту
       navigate(buttonLink);
     }
   };
@@ -96,6 +84,7 @@ const LeadSection = ({
               />
             </Grid>
           )}
+
           <Grid item xs={12} md={6} textAlign="left">
             <Typography
               variant="h3"
@@ -108,6 +97,7 @@ const LeadSection = ({
             >
               {title}
             </Typography>
+
             <Typography
               variant="subtitle1"
               sx={{
@@ -118,20 +108,11 @@ const LeadSection = ({
             >
               {description}
             </Typography>
-            <Button
-              variant="contained"
-              onClick={handleButtonClick}
-              sx={{
-                backgroundColor: "#EFE393",
-                color: "#181818",
-                px: 4,
-                py: 1.5,
-                borderRadius: "8px",
-              }}
-            >
-              {buttonText}
-            </Button>
+
+            {/* ✅ Кастомная кнопка */}
+            <LuxeButton onClick={handleButtonClick}>{buttonText}</LuxeButton>
           </Grid>
+
           {imagePosition === "right" && !isMobile && (
             <Grid item xs={12} md={6}>
               <Box

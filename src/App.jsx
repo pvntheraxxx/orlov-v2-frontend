@@ -12,6 +12,7 @@ import {
   ContactsPage,
   ReviewsPage,
   NotFoundPage,
+  RequestPage,
 } from "./pages";
 import { CartProvider } from "./contexts/CartContext.jsx";
 // import { LoadingScreen } from "./components/LoadingScreen"; // Подключаем компонент
@@ -47,7 +48,7 @@ const App = () => {
               <Route path="contacts" element={<ContactsPage />} />
               <Route path="reviews" element={<ReviewsPage />} />
               <Route path="cart" element={<CartPage />} />
-
+              <Route path="/request" element={<RequestPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
             {/* <Route path="/chatbot" element={<ChatBotPage />} /> */}
